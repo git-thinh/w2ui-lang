@@ -1,0 +1,86 @@
+<div class="content">
+    <div id="example_title">
+        <h1>Show Anywhere</h1>
+        You can show tooltip anywhere on the screen or have it move with the mouse.
+    </div>
+    <div id="example_view"></div>
+    <div id="example_code"></div>
+</div>
+
+<!--CODE-->
+<div style="display: inline-block; height: 90px; width: 400px; user-select: none; border: 1px #efefef; color: silver; background-color: #f2f2f2; text-align: center; padding-top: 30px"
+        onmousemove="showWithMouse(event)" onmouseleave="hideTooltip()">
+    Move over to see tooltip
+</div>
+<div style="display: inline-block; height: 90px; width: 400px; user-select: none; border: 1px #efefef; color: silver; background-color: #f2f2f2; text-align: center; padding-top: 30px"
+        oncontextmenu="contextMenu(event)">
+    Right click for Context Menu
+</div>
+
+
+<div style="padding-top: 10px">
+    <span id="msg-log">&nbsp;</span>
+</div>
+
+<div style="height: 20px"></div>
+<button class="w2ui-btn" onclick="showAt(Math.random() * window.innerWidth, Math.random() * window.innerHeight); event.stopPropagation()">Show Random</button>
+<button class="w2ui-btn" onclick="hideTooltip()">Hide</button>
+
+<!--CODE-->
+<script type="module">
+import { w2tooltip, w2menu, query } from '__W2UI_PATH__'
+
+window.showWithMouse = function(event) {
+    w2tooltip.show({
+        name: 'some-pos',
+        html: 'Some HTML or text',
+        x: event.pageX,
+        y: event.pageY
+    })
+}
+
+window.hideTooltip = () => {
+    w2tooltip.hide('some-pos')
+}
+
+window.showAt = function(x, y) {
+    w2tooltip.show({
+        name: 'some-pos',
+        html: '<div style="text-align: center">Middle of the Page.<br>No arrow.</div>',
+        x, y,
+        hideOn: ['doc-click'],
+        arrowSize: 0
+    })
+}
+
+window.contextMenu = function(event, type) {
+    let items = [
+        { id: 'frist', text: 'First item', icon: 'w2ui-icon-empty' },
+        { text: '--' },
+        { id: 'page', text: 'Colors', count: 4, icon: 'w2ui-icon-colors' },
+        { id: 'second', text: 'Second item', count: 2, icon: 'w2ui-icon-info' },
+        { text: '--' },
+        { id: 'sub', text: 'Insert', icon: 'w2ui-icon-empty',
+            items: [
+                { id: 'sub-1', text: 'Button', icon: 'w2ui-icon-settings' },
+                { id: 'sub-2', text: 'Label', icon: 'w2ui-icon-pencil' },
+                { id: 'sub-3', text: 'Image', icon: 'w2ui-icon-paste' },
+            ]
+        },
+        { text: '--' },
+        { id: 'delete', text: 'Delete', icon: 'w2ui-icon-cross' },
+    ]
+    w2menu.show({
+        name: 'context-menu',
+        contextMenu: true,
+        items,
+        onSelect(event) {
+            query('#msg-log').html(event.detail.item.text)
+            console.log('select', event);
+        },
+        originalEvent: event
+    })
+    event.preventDefault();
+}
+
+</script>

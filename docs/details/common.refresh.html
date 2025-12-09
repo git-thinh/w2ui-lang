@@ -1,0 +1,35 @@
+Refreshes the widget or a specific part of it
+
+<div class="definition">
+    refresh(part)
+</div>
+
+<div class="arguments">
+    <table>
+    <tr>
+        <td>part</td>
+        <td><b>string</b>, optional, specific part of the widget to refresh. If not specified, refreshes the entire widget.</td>
+    </tr>
+    </table>
+</div>
+
+<h4>Description</h4>
+
+The <span class="argument">part</span> parameter is optional. If provided, it refreshes only the specified part of the widget. If not provided or null, it refreshes the entire widget.
+
+This method updates the widget's display, applies any changes, and triggers the 'refresh' event before refreshing.
+
+<textarea class="javascript">
+let widget = new w2[widgetType]({
+    name: 'myWidget',
+    // ... other options
+});
+
+// Refresh the entire widget
+widget.refresh();
+
+// Refresh only a specific part (if applicable)
+widget.refresh('somePart');
+</textarea>
+
+The method returns the time taken to refresh in milliseconds.

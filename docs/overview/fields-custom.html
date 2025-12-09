@@ -1,0 +1,19 @@
+<h3>Custom Types</h3>
+In versions pervious to v2, there was a way to add custom types. However, since with v2 the architecture is moved to classes, you can use class inheritance
+to extend functionality to the input controls.
+<textarea class="javascript">
+class MyControl extends w2field {
+    constructor(type, options) {
+        super(type, options)
+        ...
+    }
+
+    init() {
+        ...
+    }
+
+    render(el) {
+        ...
+    }
+}
+</textarea>

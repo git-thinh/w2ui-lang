@@ -1,0 +1,30 @@
+Destroys the widget and removes it from the global w2ui object
+
+<div class="definition">
+    destroy()
+</div>
+
+<div class="arguments">
+    <table>
+    <tr>
+        <td colspan="2">No arguments</td>
+    </tr>
+    </table>
+</div>
+
+<h4>Description</h4>
+
+This method completely destroys the widget by cleaning up all associated objects, unmounting the widget, removing it from the global w2ui object, and cleaning up event handlers. It triggers the 'destroy' event before and after destruction.
+
+<textarea class="javascript">
+let widget = new w2[widgetType]({
+    name: 'myWidget',
+    // ... other options
+});
+
+// Later, when you want to completely destroy the widget
+widget.destroy();
+// widget is now removed from w2ui object and all resources are cleaned up
+</textarea>
+
+The method returns <b>true</b> if the widget was successfully destroyed, <b>false</b> if the widget was not found in the global w2ui object.

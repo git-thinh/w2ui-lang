@@ -1,0 +1,105 @@
+<div class="content">
+    <div id="example_title">
+        <h1>Context Menu</h1>
+        If you click on the columns, you will see a menu where you can choose what columns to select. But you also can
+        define a context menu for records.
+    </div>
+    <div id="example_view"></div>
+    <div id="example_code"></div>
+</div>
+
+<!--CODE-->
+<div id="grid" style="width: 600px; height: 350px; float: left"></div>
+<div style="float: left; padding-left: 5px">
+    <label style="position: relative; top: 3px; left: 10px">
+        <input type="checkbox" id="singleOrMulti" style="position: relative; top: 2px; left: -2px;" onclick="defMenu(this.checked)">
+        Default Column Menu
+    </label>
+</div>
+<div style="clear: both"></div>
+<br>
+
+<div style="padding: 10px">
+    <div style="padding-top: 0px">
+        <span style="color: gray">Show Menu For:</span> <span id="grid-log2"></span>
+    </div>
+    <div style="padding-top: 10px">
+        <span style="color: gray">Menu Item Clicked:</span> <span id="grid-log"></span>
+    </div>
+</div>
+
+<!--CODE-->
+<script type="module">
+import { w2grid, w2field, query } from '__W2UI_PATH__'
+
+let grid = new w2grid({
+    name: 'grid',
+    box: '#grid',
+    show: {
+        lineNumbers: true,
+        columnMenu: false
+    },
+    columns: [
+        { field: 'fname', text: 'First Name', size: '30%' },
+        { field: 'lname', text: 'Last Name', size: '30%' },
+        { field: 'email', text: 'Email', size: '40%' },
+        { field: 'sdate', text: 'Start Date', size: '120px' }
+    ],
+    onColumnContextMenu(event) {
+        query('#grid-log2').html(`Column <span style="color: red; padding-right: 10px">${event.detail.field}</span> menu`)
+    },
+    onContextMenu(event) {
+        let { recid, column, index } = event.detail
+        // you can completely change contextMenu array to show differen menu
+        if (recid == null) {
+            this.contextMenu[0].text = 'Column'
+        } else if (column == null) {
+            this.contextMenu[0].text = 'Row'
+        } else {
+            this.contextMenu[0].text = 'Record'
+        }
+        query('#grid-log2').html(`
+            Rec ID:
+            <span style="color: red; padding-right: 10px">${recid}</span>
+            Rec Index:
+            <span style="color: red; padding-right: 10px">${index}</span>
+            Column Index:
+            <span style="color: red; padding-right: 10px">${column}</span>
+        `)
+        console.log(event.detail)
+    },
+    contextMenu: [
+        { id: 'current', text: '--', icon: 'w2ui-icon-empty' },
+        { text: '--' },
+        { id: 'view', text: 'View', icon: 'w2ui-icon-info' },
+        { id: 'edit', text: 'Edit', icon: 'w2ui-icon-pencil' },
+        { text: '--' },
+        { id: 'delete', text: 'Delete', icon: 'w2ui-icon-cross' },
+    ],
+    onContextMenuClick(event) {
+        query('#grid-log').html(event.detail.menuItem.text)
+        console.log(event.detail)
+    }
+})
+grid.load('data/list.json')
+
+window.defMenu = val => grid.show.columnMenu = val
+</script>
+
+<!--CODE-->
+
+<!--CODE-->
+{
+    "total": 9,
+    "records": [
+        { "recid": 1, "fname": "John", "lname": "Doe", "email": "jdoe@gmail.com", "sdate": "4/3/2012" },
+        { "recid": 2, "fname": "Stuart", "lname": "Motzart", "email": "jdoe@gmail.com", "sdate": "4/3/2012" },
+        { "recid": 3, "fname": "Jin", "lname": "Franson", "email": "jdoe@gmail.com", "sdate": "4/3/2012" },
+        { "recid": 4, "fname": "Susan", "lname": "Ottie", "email": "jdoe@gmail.com", "sdate": "4/3/2012" },
+        { "recid": 5, "fname": "Kelly", "lname": "Silver", "email": "jdoe@gmail.com", "sdate": "4/3/2012" },
+        { "recid": 6, "fname": "Francis", "lname": "Gatos", "email": "jdoe@gmail.com", "sdate": "4/3/2012" },
+        { "recid": 7, "fname": "Mark", "lname": "Welldo", "email": "jdoe@gmail.com", "sdate": "4/3/2012" },
+        { "recid": 8, "fname": "Thomas", "lname": "Bahh", "email": "jdoe@gmail.com", "sdate": "4/3/2012" },
+        { "recid": 9, "fname": "Sergei", "lname": "Rachmaninov", "email": "jdoe@gmail.com", "sdate": "4/3/2012" }
+    ]
+}

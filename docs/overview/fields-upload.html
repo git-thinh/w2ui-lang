@@ -1,0 +1,73 @@
+<h3>Upload Field</h3>
+<p>
+    This controls provides an easy way to upload files as part of the form you submit. It encodes file with base64 encoding, same as email attachments. This method simplifies file uploads, but become inefficient if file size grows over 50mb or so.
+</p>
+<div style="height: 20px"></div>
+
+<h5>Preview</h5>
+<style>
+    .w2ui-field {
+        margin: 10px 0px;
+    }
+    .w2ui-field input {
+        width: 450px;
+    }
+</style>
+<div style="height: 20px"></div>
+<div class="w2ui-reset">
+    <div class="w2ui-field w2ui-span3">
+        <label>Files:</label>
+        <div><input id="file" style="width: 600px;"></div>
+    </div>
+    <div style="clear: both; height: 20px"></div>
+</div>
+<script>
+$(function () {
+    $('#file').w2field('file', {});
+});
+</script>
+<div style="height: 20px; clear: both"></div>
+
+<h5>Code</h5>
+<textarea class="html">
+<div class="w2ui-field w2ui-span3">
+    <label>Files:</label>
+    <div><input id="file" style="width: 600px"></div>
+</div>
+
+&lt;script>
+$(function () {
+    $('#file').w2field('file', {});
+    // if you need to get to the selected items, use:
+    // $('#id').data('selected');
+});
+&lt;/script>
+</textarea>
+
+<h3>Options</h3>
+You can provide various options for numeric fields as second argument. The structure of the options object is below:
+
+<textarea class="javascript">
+options = {
+    selected      : [],     // array of selected files
+    max           : 0,      // max number of selected files, 0 - unlim
+    maxSize       : 0,      // max size of all files, 0 - unlimited
+    maxFileSize   : 0,      // max size of a single file, 0 -unlimited
+    renderItem    : null,   // render function fo the selected item
+    // -- misc --
+    maxItemWidth  : 250,    // max width for a single item
+    maxDropHeight : 350,    // max height for drop down menu
+    maxDropWidth  : null,   // if null then auto set
+    readContent   : true,   // if true, it will readAsDataURL content of the file
+    showErrors    : true,   // if not true, will show errors
+    align         : 'both', // align with the input ['left', 'right', 'both', 'none']
+    altRows       : true,   // alternate row color for drop itesm
+    style         : '',     // style for container div
+    // -- events --
+    onClick       : null,   // when item is clicked
+    onAdd         : null,   // when item is added
+    onRemove      : null,   // when item is removed
+    onMouseEnter  : null,   // when item is mouse over
+    onMouseLeave  : null    // when item is mouse out
+}
+</textarea>

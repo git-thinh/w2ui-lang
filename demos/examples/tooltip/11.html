@@ -1,0 +1,76 @@
+<div class="content">
+    <div id="example_title">
+        <h1>Custom Icons</h1>
+        The example below show how to create custom icons for drop down menus.
+    </div>
+    <div id="example_view"></div>
+    <div id="example_code"></div>
+</div>
+
+<!--CODE-->
+<style>
+    .custom {
+        font-size: 16px;
+        padding: 10px;
+        background-color: #fcfcfc;
+        width: 600px;
+        color: #484848;
+    }
+    .tooltip {
+        display: inline-block;
+        padding: 3px 6px;
+        background-color: #f1f4dc;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+</style>
+
+<div style="height: 10px"></div>
+
+<input id="custom-inp" class="w2ui-input" placeholder="Type to search..." style="width: 200px">
+
+<div style="height: 20px"></div>
+
+<!--CODE-->
+<script type="module">
+import { query, w2menu, w2utils } from '__W2UI_PATH__'
+
+let items = [
+    { id: 'p1', text: 'Default Pallette', icon: 'w2ui-icon-colors' },
+    { id: '--', text: '--'},
+    { id: 'red', text: 'Red', icon: '#ff0000' },
+    { id: 'green', text: 'Green', icon: '#00ff00' },
+    { id: 'blue', text: 'Blue', icon: '#0000ff' },
+    { id: 'div', text: 'Custom', icon: '<div style="width: 18px; height: 18px; border: 1px solid red; margin-left: 3px"></div>' },
+    { id: '--', text: '--'},
+    { id: 'search', text: 'Search', icon: 'w2ui-icon-search'},
+    { id: 'pick', text: 'Pick Color', icon: 'w2ui-icon-eye-dropper'},
+]
+
+query('#custom-inp')
+    .on('focus', event => {
+        query(event.target).val('')
+        showMenu(items)
+    })
+    .on('input', event => {
+        showMenu(items) // will update the menu
+    })
+
+function showMenu(items) {
+    w2menu.show({
+        name: 'custom-menu',
+        anchor: event.target,
+        hideOn: ['select', 'blur', 'doc-click'],
+        filter: true,   // if the anchor is an INPUT, it will use its value to filter
+        match: 'contains', // can be begins, contains, ends
+        markSearch: true,
+        altRows: true,
+        items
+    })
+    .select(event => {
+        let anchor = event.detail.overlay.anchor
+        query(anchor).val(event.detail.item.text)
+    })
+}
+
+</script>

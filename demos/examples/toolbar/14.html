@@ -1,0 +1,146 @@
+<div class="content">
+    <div id="example_title">
+        <h1>Label & Input</h1>
+        Two more toolbar item types have been added. Those are label and input.
+        <div style="height: 10px"></div>
+        Label is just like a button, but does not have hover efffect. It is fully clicable and supports all other features, such as icons, badges and tooltips.
+        <div style="height: 10px"></div>
+        Input is an input control that will generate change event when user changes value of the input. If it is a spinner user can change it
+        by clicking +/- buttons next to it.
+    </div>
+    <div id="example_view"></div>
+    <div id="example_code"></div>
+</div>
+
+<!--CODE-->
+<div id="toolbar"></div>
+<div style="height: 30px"></div>
+
+<button class="w2ui-btn action" action="set1">Set Label</button>
+<button class="w2ui-btn action" action="set2">Update Style</button>
+<button class="w2ui-btn action" action="set3">Clear Style</button>
+<span style="color: gray">|</span>
+<button class="w2ui-btn action" action="set4">Enter Name</button>
+<button class="w2ui-btn action" action="set5">Clear Name</button>
+<div style="height: 20px"></div>
+
+<style>
+.w2ui-toolbar .w2ui-scroll-wrapper .w2ui-tb-button.custom {
+    .w2ui-tb-icon > span {
+        color: white;
+    }
+}
+</style>
+
+<!--CODE-->
+<script type="module">
+import { w2ui, w2toolbar, w2utils, query, w2date } from '__W2UI_PATH__'
+
+let toolbar = new w2toolbar({
+    box: '#toolbar',
+    name: 'toolbar',
+    tooltip: 'top',
+    items: [
+        { type: 'label', id: 'item1', text: 'Static Text', icon: 'w2ui-icon-colors', tooltip: 'Still can have tooltips' },
+        { type: 'break' },
+        { type: 'input', id: 'name', placeholder: 'Enter Name', tooltip: 'Text input' },
+        { type: 'break' },
+        { type: 'input', id: 'size', text: 'Size', tooltip: 'Font Size', value: 12,
+            input: {
+                spinner: true,
+                style: 'width: 110px',
+                min: 0,
+                max: 100,
+                step: 1,
+                precision: 2,
+                // suffix: 'px'
+            }
+        },
+        { type: 'break' },
+        { type: 'input', id: 'spacing', text: 'Spacing', tooltip: 'Line Spacing', value: 1,
+            input: {
+                spinner: true,
+                style: 'text-align: center; width: 85px',
+                min: 0.1,
+                max: 10,
+                step: .1
+            }
+        },
+        { type: 'break' },
+        { type: 'input', id: 'date', text: 'Date', value: '', placeholder: 'Start Date',
+            input: {
+                style: 'width: 80px'
+            }
+        },
+        { type: 'break' },
+        { type: 'input', id: 'range', text: 'Range', value: 1,
+            input: {
+                style: 'width: 120px',
+                attrs: 'type="range" min="0.2" max="5.0" step="0.01"'
+            },
+        },
+        { type: 'break' },
+        { type: 'input', id: 'text', placeholder: 'Type...', tooltip: 'Text input', input: { style: 'width: 90px' } },
+        { type: 'button', id: 'btn', icon: 'fa fa-phone' }
+
+    ],
+    onClick(event) {
+        w2utils.notify(`Label "${event.detail.item.text}" clicked`)
+    },
+    onChange(event) {
+        w2utils.notify(`Input "${event.detail.item.id}" changed to "${event.detail.value}"`)
+    },
+    onInput(event) {
+        w2utils.notify(`Input "${event.detail.item.id}" is changing "${event.detail.value}"`)
+    },
+    async onRender(event) {
+        await event.complete
+        // find input where to attach date control
+        let input = query(this.box)
+            .find(`#tb_${this.name}_item_${w2utils.escapeId('date')}`)
+            .find('input')
+            .get(0)
+        // regular date control, an be any other tooltip based control
+        w2date.attach({
+                name: 'date-tooltip',
+                anchor: input,
+                type: 'date',
+            })
+            .select((event) => {
+                // need to trigger change event
+                query(input).change()
+                console.log(event.detail.date)
+            })
+    }
+})
+
+query('#example_view .action')
+    .on('click', event => {
+        let action = query(event.target).attr('action')
+        switch (action) {
+            case 'set1': {
+                toolbar.set('item1', { text: 'Changed ' + String(Date.now()).substr(-5) })
+                break
+            }
+            case 'set2': {
+                toolbar.set('item1', {
+                    class: 'custom', // setting class allows to ovewrite styles for specific item's component
+                    style: 'background-color: lightgreen; border-radius: 0px; color: red !important;'
+                })
+                break
+            }
+            case 'set3': {
+                toolbar.set('item1', { style: '', class: '' })
+                break
+            }
+            case 'set4': {
+                toolbar.set('name', { value: 'Tim Keller' })
+                break
+            }
+            case 'set5': {
+                toolbar.set('name', { value: '' })
+                break
+            }
+        }
+    })
+</script>

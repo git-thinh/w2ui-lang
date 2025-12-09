@@ -1,0 +1,35 @@
+Renders the widget into the specified HTML element
+
+<div class="definition">
+    render(box)
+</div>
+
+<div class="arguments">
+    <table>
+    <tr>
+        <td>box</td>
+        <td><b>string</b> or <b>object</b>, HTML element or selector where to render the widget</td>
+    </tr>
+    </table>
+</div>
+
+<h4>Description</h4>
+
+The <span class="argument">box</span> parameter can be either a DOM element or a CSS selector string. If it's a string, it will be converted to a DOM element using query selector.
+
+This method creates the widget's HTML structure, initializes event handlers, and sets up any necessary observers. It also triggers the 'render' event before and after rendering.
+
+<textarea class="javascript">
+// Render into an existing div
+let widget = new w2[widgetType]({
+    name: 'myWidget',
+    // ... other options
+});
+widget.render('#myContainer');
+
+// Or render into a DOM element
+let container = document.getElementById('myContainer');
+widget.render(container);
+</textarea>
+
+The method returns the time taken to render the widget in milliseconds.

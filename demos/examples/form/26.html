@@ -1,0 +1,97 @@
+<div class="content">
+    <div id="example_title" style="max-width: 900px">
+        <h1>Field Type: Switch</h1>
+        A new field type is introduced that allows to quickly implement radio buttons that looks like buttons (aka segmented button). It
+        used w2toolbar under the hood and allows to extend this toolbar with other items supported by toolbar.
+    </div>
+    <div id="example_view"></div>
+    <div id="example_code"></div>
+</div>
+
+<!--CODE-->
+<div id="form" style="width: 750px">
+</div>
+
+<!--CODE-->
+<script type="module">
+import { w2form, w2popup } from '__W2UI_PATH__'
+
+let form = new w2form({
+    box: '#form',
+    name: 'form',
+    fields: [
+        { field: 'file_name',  type: 'text', required: true, html: { label: 'File Name', attr: 'style="width: 300px"' } },
+        { field: 'file_type', type: 'switch', required: true,
+            options: {
+                items: [
+                    'Text', 'Mark Down', 'HTML', 'Other',
+                    { id: 'some', tooltip: 'Some tooltip', icon: 'fa fa-star' },
+                    { id: 'some2', tooltip: 'Some2 tooltip', icon: 'fa fa-star-o' }
+                ]
+            },
+            html: { label: 'File Type', attr1: 'style="width: 300px"' }
+        },
+        { field: 'type', type: 'switch', required: true,
+            options: {
+                items: [
+                    { id: 'some', tooltip: 'Star', icon: 'fa fa-star' },
+                    { id: 'some2', tooltip: 'Empty star', icon: 'fa fa-star-o' },
+                    { id: 'info', tooltip: 'Empty star', icon: 'fa fa-folder-o' },
+                    { type: 'break' }
+                ]
+            },
+            html: {
+                label: 'Anchored',
+                attr: 'style="width: 120px"',
+                text: `
+                    <span style="display: inline-block; padding-left: 5px">%input-min%</span>
+                    <span style="display: inline-block; padding-left: 5px">%input-max%</span>
+                `
+            }
+        },
+        { field: 'min', type: 'text',
+            html: {
+                anchor: '%input-min%',
+                label: '',
+                attr: 'placeholder="max" style="width: 50px"'
+            }
+        },
+        { field: 'max', type: 'text',
+            html: {
+                anchor: '%input-max%',
+                label: '',
+                attr: 'placeholder="max" style="width: 50px"'
+            }
+        },
+        { field: 'comments', type: 'textarea',
+            html: {
+                label: 'Comments',
+                attr: 'style="width: 100%; height: 120px"'
+            }
+        }
+    ],
+    onChange(event) {
+        console.log('change', event.detail, this.record)
+    },
+    record: {
+        file_type: 'HTML',
+        file_name: 'name'
+    },
+    actions: {
+        Reset() {
+            this.clear()
+        },
+        Save() {
+            if (form.validate().length == 0) {
+                w2popup.open({
+                    title: 'Form Data',
+                    with: 600,
+                    height: 550,
+                    body: `<pre>${JSON.stringify(this.getCleanRecord(), null, 4)}</pre>`,
+                    actions: { Ok: w2popup.close }
+                })
+            }
+        }
+    }
+})
+</script>

@@ -1,0 +1,31 @@
+Resizes the widget to fit its container
+
+<div class="definition">
+    resize()
+</div>
+
+<div class="arguments">
+    <table>
+    <tr>
+        <td colspan="2">No arguments</td>
+    </tr>
+    </table>
+</div>
+
+<h4>Description</h4>
+
+This method recalculates and applies the size and position of the widget to fit its container. It handles responsive behavior and ensures the widget displays correctly when its container size changes.
+
+The method triggers the 'resize' event before and after resizing.
+
+<textarea class="javascript">
+let widget = new w2[widgetType]({
+    name: 'myWidget',
+    // ... other options
+});
+
+// Resize the widget (typically called automatically when container size changes)
+widget.resize();
+</textarea>
+
+The method returns the time taken to resize in milliseconds.
