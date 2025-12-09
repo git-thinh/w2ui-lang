@@ -136,11 +136,12 @@ class w2field extends w2base {
                 break
             }
             case 'color': {
-                let size = parseInt(getComputedStyle(this.el)['font-size']) || 12
+                //let size = parseInt(getComputedStyle(this.el)['font-size']) || 12
                 defaults = {
                     prefix: '#',
-                    suffix: `<div style="width: ${size}px; height: ${size}px; margin-top: -2px;
-                                    position: relative; top: 50%; transform: translateY(-50%);">&#160;</div>`,
+                    //[?????]
+                    //suffix: `<div style="width: ${size}px; height: ${size}px; margin-top: -2px; position: relative; top: 50%; transform: translateY(-50%);">&#160;</div>`,
+                    suffix: `<div class="xf-val-${this.type}" style="margin-top: -2px; position: relative; top: 50%; transform: translateY(-50%);">&#160;</div>`,
                     arrows: false,
                     advanced: null, // open advanced by default
                     transparent: true
@@ -386,7 +387,7 @@ class w2field extends w2base {
         // attach events
         query(this.el)
             .css('box-sizing', 'border-box')
-            .addClass('w2field w2ui-input')
+            .addClass(`w2field w2ui-input xfi-${this.type}`)
             .off('.w2field')
             .on('change.w2field', (event) => { this.change(event) })
             .on('click.w2field', (event) => { this.click(event) })
@@ -479,10 +480,7 @@ class w2field extends w2base {
             if (!this.helpers.search) return
             // if empty show no icon
             if (this.selected == null && options.icon) {
-                options.prefix = `
-                    <span class="w2ui-icon ${options.icon} "style="cursor: pointer; font-size: 14px;
-                        display: inline-block; margin-top: -1px; color: #7F98AD; ${options.iconStyle}">
-                    </span>`
+                options.prefix = `<span class="w2ui-icon ${options.icon} "style="cursor: pointer; display: inline-block; margin-top: -1px; color: #7F98AD; ${options.iconStyle}"></span>`
                 this.addPrefix()
             } else {
                 options.prefix = ''
@@ -601,11 +599,11 @@ class w2field extends w2base {
                 //[?????]
                 //padding-top: ${styles['padding-top']};
                 //padding-left: ${styles['padding-left']};
+                //line-height: ${styles['line-height']};
+                //font-size: ${styles['font-size']};
+                //font-family: ${styles['font-family']};
                 let style = w2utils.stripSpaces(`
                     box-sizing: ${styles['box-sizing']};
-                    line-height: ${styles['line-height']};
-                    font-size: ${styles['font-size']};
-                    font-family: ${styles['font-family']};
                 `)
                 const _placeholder = query(this.el).attr('placeholder')
                 div.prepend(`<div class="w2ui-enum-placeholder" style="${style}" ${xlang(_placeholder)}>${w2utils.lang(_placeholder)}</div>`)
@@ -1263,10 +1261,12 @@ class w2field extends w2base {
         if (this.type == 'enum') {
             let search = this.helpers.multi.find('input')
             let styles = getComputedStyle(search.get(0))
-            let width = w2utils.getStrWidth(search.val(),
-                `font-family: ${styles['font-family']}; font-size: ${styles['font-size']};`)
-            search.css({ width: (width + 15) + 'px' })
-            this.resize()
+
+            //[?????]
+            //let width = w2utils.getStrWidth(search.val(), `font-family: ${styles['font-family']}; font-size: ${styles['font-size']};`)
+            //search.css({ width: (width + 15) + 'px' })
+            //this.resize()
+
             // if delete, backspace, tab, shift, escape - hide menu
             if ([8, 46, 9, 16, 27].includes(event.keyCode)) {
                 if (this.tmp.overlay?.overlay?.displayed) {
@@ -1465,9 +1465,12 @@ class w2field extends w2base {
         helper = query(this.el).get(0).previousElementSibling
         query(helper)
             .css({
+
+                //[?????]
+                //'font-size': styles['font-size'],
+
                 'color': styles.color,
                 'font-family': styles['font-family'],
-                'font-size': styles['font-size'],
                 'height': this.el.clientHeight + 'px',
                 'padding-top': parseInt(styles['padding-top'], 10) + 1 + 'px',
                 'padding-bottom': parseInt(styles['padding-bottom'], 10) - 1 + 'px',
@@ -1513,9 +1516,12 @@ class w2field extends w2base {
                 '</div>')
             helper = query(this.el).get(0).nextElementSibling
             query(helper).css({
+
+                //[?????]
+                //'font-size': styles['font-size'],
+
                 'color': styles.color,
                 'font-family': styles['font-family'],
-                'font-size': styles['font-size'],
                 'height': this.el.clientHeight + 'px',
                 'padding': 0,
                 'margin-top': (parseInt(styles['margin-top'], 10) + 1) + 'px',
@@ -1544,9 +1550,11 @@ class w2field extends w2base {
             helper = query(this.el).get(0).nextElementSibling
             query(helper)
                 .css({
+                    //[?????]
+                    //'font-size': styles['font-size'],
+
                     'color': styles.color,
                     'font-family': styles['font-family'],
-                    'font-size': styles['font-size'],
                     'height': this.el.clientHeight + 'px',
                     'padding-top': styles['padding-top'],
                     'padding-bottom': styles['padding-bottom'],

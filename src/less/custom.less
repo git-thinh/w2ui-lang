@@ -1,4 +1,38 @@
-﻿.w2ui-field-helper.w2ui-list .w2ui-enum-placeholder {
+﻿@main-font-size: 14px;
+
+.w2ui-reset,
+.w2ui-icon {
+    font-size: @main-font-size;
+}
+
+.w2ui-box-label {
+    font-size: @main-font-size;
+
+    & span {
+        font-size: @main-font-size;
+    }
+}
+
+.w2ui-form-header {
+    font-size: 18px;
+}
+
+.w2ui-input {
+    font-size: 15px;
+}
+
+.w2ui-field-helper.w2ui-list .w2ui-enum-placeholder {
     padding-top: 3px;
     padding-left: 6px;
+}
+
+input[type=button].w2ui-btn,
+button.w2ui-btn {
+    margin: 0px 3px;
+    padding: 9px 17px;
+}
+
+.xf-val-color{
+    width: 24px;
+    height: 24px;
 }

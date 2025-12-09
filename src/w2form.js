@@ -1380,6 +1380,17 @@ class w2form extends w2base {
         this.refresh()
     }
 
+    getCssField(fi) {
+        const fn = (fi.field || '').replace(/\./g, '-').toLowerCase();
+        const s = `w2ui-field xf-name xf-name-${fn} xf-type xf-type-${fi.type} `;
+        return s;
+    }
+    getCssKit(fi, class_) {
+        const css = class_ || '';
+        const fn = (fi.field || '').replace(/\./g, '-').toLowerCase();
+        const s = `xk-field xk-name xk-name-${fn} xk-type xk-type-${fi.type} ${css}`;
+        return s;
+    }
     generateHTML() {
         let pages = [] // array for each page
         let group = ''
@@ -1387,6 +1398,7 @@ class w2form extends w2base {
         let column
         let tabindex
         let tabindex_str
+
         for (let f = 0; f < this.fields.length; f++) {
             let html = ''
             tabindex = this.tabindexBase + f + 1
@@ -1432,7 +1444,7 @@ class w2form extends w2base {
                 case 'checks': {
                     if (field.options.items == null && field.html.items != null) field.options.items = field.html.items
                     let items = field.options.items
-                    input = `<div class="w2ui-field-group" ${field.html.attr}>`
+                    input = `<div class="${this.getCssKit(field, 'w2ui-field-group')}" ${field.html.attr}>`
                     // normalized options
                     if (!Array.isArray(items)) items = []
                     if (items.length > 0) {
@@ -1453,7 +1465,7 @@ class w2form extends w2base {
                     break
                 }
                 case 'radio': {
-                    input = `<div class="w2ui-field-group"${field.html.attr}>`
+                    input = `<div class="${this.getCssKit(field, 'w2ui-field-group')}" ${field.html.attr}>`
                     // normalized options
                     if (field.options.items == null && field.html.items != null) field.options.items = field.html.items
                     let items = field.options.items
@@ -1494,7 +1506,7 @@ class w2form extends w2base {
                 }
                 case 'switch': {
                     input = `
-                        <div>
+                        <div class="${this.getCssKit(field)}">
                             <div id="${field.field}-tb" class="w2ui-form-switch ${field.html.class ?? ''}" ${field.html.attr}></div>
                             <input id="${field.field}" name="${field.field}" ${tabindex_str} class="w2ui-input"
                                 style="position: absolute; right: 0px; margin-top: -30px; width: 1px; padding: 0; opacity: 0">
@@ -1534,6 +1546,8 @@ class w2form extends w2base {
                         '</div>'
                     break
             }
+
+
             if (group !== '') {
                 if (page != field.html.page || column != field.html.column || (field.html.group && (group != field.html.group))) {
                     pages[page][column] += '\n   </div>\n  </div>'
@@ -1549,14 +1563,14 @@ class w2form extends w2base {
                     + '\n   <div class="w2ui-group-title w2ui-eaction" style="' + (field.html.groupTitleStyle || '') + '; '
                     + (collapsible != '' ? 'cursor: pointer; user-select: none' : '') + '"'
                     + (collapsible != '' ? 'data-group="' + w2utils.base64encode(field.html.group) + '"' : '')
-                    + (collapsible != ''
-                        ? 'data-click="toggleGroup|' + field.html.group + '"'
-                        : '')
+                    + (collapsible != '' ? 'data-click="toggleGroup|' + field.html.group + '"' : '')
                     + '>'
                     + collapsible + w2utils.lang(field.html.group) + '</div>\n'
                     + '   <div class="w2ui-group-fields" style="' + (field.html.groupStyle || '') + '">'
                 group = field.html.group
             }
+
+
             if (field.type == 'columns') {
                 html += `<div class="w2ui-field-columns" style="${field.style ?? ''}">`
                 field.columns.forEach(col => {
@@ -1574,53 +1588,61 @@ class w2form extends w2base {
                 let text = (field.type != 'array' && field.type != 'map' ? w2utils.lang(field.type != 'checkbox' ? field.html.text : '') : '')
                 pages[field.html.page].anchors ??= {}
                 pages[field.html.page].anchors[field.html.col_anchor] = `
-                    <div class="w2ui-field ${span}" style="${(field.hidden ? 'display: none;' : '') + field.html.style}">
+                    <div class="${this.getCssField(field)} ${span}" style="${(field.hidden ? 'display: none;' : '') + field.html.style}">
                         ${label}
                         ${['empty', 'switch', 'radio', 'check', 'checks'].includes(field.type) ? input : `<div>${input + text}</div>`}
                     </div>`
             } else if (field.html.anchor != null) {
                 let span = (field.html.span != null ? 'w2ui-span' + field.html.span : 'w2ui-span0')
                 let label = w2utils.lang(field.type != 'checkbox' ? field.html.label : field.html.text, true)
-                let text = `<span ${xlang(field.type != 'checkbox' ? field.html.text : '')}>` +
+                let text = `<span class="xk-text xk-xlang" ${xlang(field.type != 'checkbox' ? field.html.text : '')}>` +
                     w2utils.lang(field.type != 'checkbox' ? field.html.text : '') + `</span>`
                 if (field.html.span == -1) {
                     const xl = xlang(field.type != 'checkbox' ? field.html.label : field.html.text);
-                    label = `<span style="position: absolute"><span class="w2ui-anchor-span-none w2ui-inline-label" ${xl}> ${label} </span></span>`
+                    label = `<span class="xk-span" style="position: absolute"><span class="xk-label w2ui-inline-label w2ui-anchor-span-none" ${xl}> ${label} </span></span>`
                 } else {
                     const xl = xlang(field.type != 'checkbox' ? field.html.label : field.html.text);
-                    label = `<span class="w2ui-inline-label" ${xl}> ${label} </span>`
+                    label = `<span class="xk-label w2ui-inline-label" ${xl}> ${label} </span>`
                 }
                 pages[field.html.page].anchors ??= {}
                 pages[field.html.page].anchors[field.html.anchor] = `
-                    <div class="w2ui-field w2ui-field-inline ${span}" style="${(field.hidden ? 'display: none;' : '') + field.html.style}">
-                        ${((field.type === 'empty' || field.type == 'switch') ? input : `<div>${label} ${input} ${text}</div>`)}
+                    <div class="${this.getCssField(field)} w2ui-field-inline ${span}" style="${(field.hidden ? 'display: none;' : '') + field.html.style}">
+                        ${((field.type === 'empty' || field.type == 'switch') ? input : `<div class="xk-anchor">${label} ${input} ${text}</div>`)}
                     </div>`
             } else {
                 let span = (field.html.span != null ? 'w2ui-span' + field.html.span : '')
                 if (field.html.span == -1) span = 'w2ui-span-none'
                 let label = `
-                    <label ${span == 'none' ? ' style="display: none"' : ''} ${xlang(field.type != 'checkbox' ? field.html.label : field.html.text)}>
+                    <label class="xk-label" ${span == 'none' ? ' style="display: none"' : ''} ${xlang(field.type != 'checkbox' ? field.html.label : field.html.text)}>
                         ${w2utils.lang(field.type != 'checkbox' ? field.html.label : field.html.text)}
                     </label>`
                 if (!field.html.label) label = ''
                 let text = (field.type != 'array' && field.type != 'map' ? w2utils.lang(field.type != 'checkbox' ? field.html.text : '') : '')
-                text = `<span ${xlang(field.type != 'checkbox' ? field.html.text : '')}>${text}</span>`
+                text = `<span class="xk-text xk-xlang" ${xlang(field.type != 'checkbox' ? field.html.text : '')}>${text}</span>`
                 html += `
-                    <div class="w2ui-field ${span}" style="${(field.hidden ? 'display: none;' : '') + field.html.style}">
+                    <div class="${this.getCssField(field)} ${span}" style="${(field.hidden ? 'display: none;' : '') + field.html.style}">
                         ${label}
-                        ${['empty', 'switch', 'radio', 'check', 'checks'].includes(field.type) ? input : `<div>${input + text}</div>`}
+                        ${['empty', 'switch', 'radio', 'check', 'checks'].includes(field.type) ?
+                        input : `<div class="${this.getCssKit(field)}">${input + text}</div>`}
                     </div>`
             }
+
             if (pages[field.html.page] == null) pages[field.html.page] = {}
             if (pages[field.html.page][field.html.column] == null) pages[field.html.page][field.html.column] = ''
+
+            console.log(`${field.type}.${field.field} =`, html.trim().substr(0, 50));
+
             pages[field.html.page][field.html.column] += html
             page = field.html.page
             column = field.html.column
-        }
+
+        }// end for each field
+
         if (group !== '') pages[page][column] += '\n   </div>\n  </div>'
         if (this.tabs.tabs) {
             for (let i = 0; i < this.tabs.tabs.length; i++) if (pages[i] == null) pages[i] = []
         }
+
         // buttons if any
         let buttons = ''
         if (Object.keys(this.actions).length > 0) {
