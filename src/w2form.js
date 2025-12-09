@@ -46,6 +46,12 @@ import { xlang } from './_lang.js'
 class w2form extends w2base {
     constructor(options) {
         super(options.name)
+
+        this.last = {
+            fetchCtrl: null,    // last fetch AbortController
+            fetchOptions: null, // last fetch options
+            errors: []
+        }
         this.name = null
         this.header = ''
         this.box = null // HTML element that hold this element
@@ -73,11 +79,6 @@ class w2form extends w2base {
         this.nestedFields = true // use field name containing dots as separator to look into object
         this.tabindexBase = 0 // this will be added to the auto numbering
         this.isGenerated = false
-        this.last = {
-            fetchCtrl: null,    // last fetch AbortController
-            fetchOptions: null, // last fetch options
-            errors: []
-        }
         this.onRequest = null
         this.onLoad = null
         this.onValidate = null
@@ -93,6 +94,7 @@ class w2form extends w2base {
         this.onAction = null
         this.onToolbar = null
         this.onError = null
+
         this.msgRefresh = 'Loading...'
         this.msgSaving = 'Saving...'
         this.msgServerError = 'Server error'
@@ -103,6 +105,7 @@ class w2form extends w2base {
         this.LIST_TYPES = ['select', 'radio', 'check', 'checks', 'list', 'combo', 'enum', 'switch']
         this.W2FIELD_TYPES = ['int', 'float', 'money', 'currency', 'percent', 'hex', 'alphanumeric', 'color',
             'date', 'time', 'datetime', 'list', 'combo', 'enum', 'file']
+
         // mix in options
         w2utils.extend(this, options)
 
@@ -112,8 +115,10 @@ class w2form extends w2base {
         let fields = options.fields
         let toolbar = options.toolbar
         let tabs = options.tabs
+
         // extend items
         Object.assign(this, { record: {}, original: null, fields: [], tabs: {}, toolbar: {}, handlers: [] })
+
         // preprocess fields
         if (fields) {
             let sub = _processFields(fields)
@@ -122,6 +127,7 @@ class w2form extends w2base {
                 tabs = sub.tabs
             }
         }
+
         // prepare tabs
         if (Array.isArray(tabs)) {
             w2utils.extend(this.tabs, { tabs: [] })
@@ -136,10 +142,10 @@ class w2form extends w2base {
                     this.tabs.tabs.push({ id: tmp, text: tmp })
                 }
             }
-        } else {
-            w2utils.extend(this.tabs, tabs)
-        }
+        } else { w2utils.extend(this.tabs, tabs) }
+
         w2utils.extend(this.toolbar, toolbar)
+
         for (let p in record) { // it is an object
             if (w2utils.isPlainObject(record[p])) {
                 this.record[p] = w2utils.clone(record[p])
@@ -147,6 +153,7 @@ class w2form extends w2base {
                 this.record[p] = record[p]
             }
         }
+
         for (let p in original) { // it is an object
             if (w2utils.isPlainObject(original[p])) {
                 this.original[p] = w2utils.clone(original[p])
@@ -154,6 +161,7 @@ class w2form extends w2base {
                 this.original[p] = original[p]
             }
         }
+
         // generate html if necessary
         if (this.formURL !== '') {
             fetch(this.formURL)
@@ -243,6 +251,7 @@ class w2form extends w2base {
                     }))
                 }
             }
+
             // process groups
             fields.forEach(field => {
                 if (field.type == 'group') {
