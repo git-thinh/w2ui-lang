@@ -1,4 +1,5 @@
 /* eslint-env node */
+const { resolve } = require('path')
 const gulp     = require('gulp')
 const header   = require('gulp-header')
 const iconfont = require('gulp-iconfont')
@@ -11,6 +12,11 @@ const replace  = require('gulp-replace')
 const del      = require('del')
 // const babel    = require('gulp-babel')
 // const { exec } = require('child_process')
+
+//const OUT_DIR = 'dist/'
+const OUT_DIR = resolve(__dirname, '../sc-vuetify/public/static').replace(/\\/g, '/') + '/';
+console.log(OUT_DIR)
+
 const comments = {
     w2ui : '/* w2ui 2.0.x (nightly) ('+ (new Date()).toLocaleString('en-us') +') (c) http://w2ui.com, vitmalina@gmail.com */\n'
 }
@@ -69,20 +75,20 @@ const files_es6 = [
     'src/w2field.js'
 ]
 const files_legacy = Array.from(files_es6)
-files_legacy.push('src/w2compat.js')
+files_legacy.push('src/_w2compat.js')
 
 let tasks = {
 
     clean(cb) {
         let files = [
-            'dist/w2ui.js',
-            'dist/w2ui.min.js',
-            'dist/w2ui.css',
-            'dist/w2ui-dark.css',
-            'dist/w2ui.min.css',
-            'dist/w2ui-dark.min.css'
+            OUT_DIR + 'w2ui.js',
+            OUT_DIR + 'w2ui.min.js',
+            OUT_DIR + 'w2ui.css',
+            OUT_DIR + 'w2ui-dark.css',
+            OUT_DIR + 'w2ui.min.css',
+            OUT_DIR + 'w2ui-dark.min.css'
         ]
-        return del(files)
+        return del(files, { force: true });
     },
 
     less(cb) {
@@ -94,17 +100,17 @@ let tasks = {
             })
             .pipe(less())
             .pipe(header(comments.w2ui))
-            .pipe(gulp.dest('dist/'))
+            .pipe(gulp.dest(OUT_DIR))
             .pipe(cleanCSS())
             .pipe(rename({ suffix: '.min' }))
             .pipe(header(comments.w2ui))
-            .pipe(gulp.dest('dist/'))
+            .pipe(gulp.dest(OUT_DIR))
     },
 
     pack(cb) {
         let count = 0
-        console.log('  - update dist/w2ui.js')
-        console.log('  - update dist/w2ui_es6.js')
+        console.log(`  - update ${OUT_DIR}/w2ui.js`)
+        console.log(`  - update ${OUT_DIR}/w2ui_es6.js`)
         gulp.src(files_legacy)
             .pipe(concat('w2ui.js'))
             .pipe(replace(/^(import.*'|export.*}|module\.exports.*})$\n/gm, ''))
@@ -112,7 +118,7 @@ let tasks = {
             .pipe(replace('\n\n', '\n'))
             .pipe(replace(legacy_replace, legacy_code))
             .pipe(header(comments.w2ui))
-            .pipe(gulp.dest('dist/'))
+            .pipe(gulp.dest(OUT_DIR))
             .on('end', () => { check() })
 
         gulp.src(files_es6)
@@ -121,7 +127,7 @@ let tasks = {
             .pipe(replace('\n\n', '\n'))
             .pipe(replace('export { w2field }', exports_es6))
             .pipe(header(comments.w2ui))
-            .pipe(gulp.dest('dist/'))
+            .pipe(gulp.dest(OUT_DIR))
             .on('end', () => { check() })
 
         function check() {
@@ -139,7 +145,7 @@ let tasks = {
             .pipe(replace('\n\n', '\n'))
             .pipe(replace(legacy_replace, legacy_code))
             .pipe(header(comments.w2ui))
-            .pipe(gulp.dest('dist/'))
+            .pipe(gulp.dest(OUT_DIR))
             // min file
             .pipe(uglify({
                 warnings: false,
@@ -147,7 +153,7 @@ let tasks = {
             }))
             .pipe(rename({ suffix: '.min' }))
             .pipe(header(comments.w2ui))
-            .pipe(gulp.dest('dist/'))
+            .pipe(gulp.dest(OUT_DIR))
             .on('end', () => {
                 cb()
             })
@@ -161,7 +167,7 @@ let tasks = {
             .pipe(replace('\n\n', '\n'))
             .pipe(replace('export { w2field }', exports_es6))
             .pipe(header(comments.w2ui))
-            .pipe(gulp.dest('dist/'))
+            .pipe(gulp.dest(OUT_DIR))
             // min file
             .pipe(uglify({
                 warnings: false,
@@ -169,7 +175,7 @@ let tasks = {
             }))
             .pipe(rename({ suffix: '.min' }))
             .pipe(header(comments.w2ui))
-            .pipe(gulp.dest('dist/'))
+            .pipe(gulp.dest(OUT_DIR))
             .on('end', () => {
                 cb()
             })
@@ -258,7 +264,7 @@ let tasks = {
     },
 
     watch(cb) {
-        gulp.watch(['src/**/*.js'], tasks.pack) // only packs dist/w2ui.js
+        gulp.watch(['src/**/*.js'], tasks.pack) // only packs w2ui.js
         gulp.watch(['src/less/**/*.less'], tasks.less)
         gulp.watch(['src/less/icons/svg/*.svg'], tasks.icons)
     },

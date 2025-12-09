@@ -1,4 +1,4 @@
-/* w2ui 2.0.x (nightly) (12/9/2025, 11:33:17 AM) (c) http://w2ui.com, vitmalina@gmail.com */
+/* w2ui 2.0.x (nightly) (12/9/2025, 12:01:57 PM) (c) http://w2ui.com, vitmalina@gmail.com */
 function xlang(key) {
     let s = key || '';
     const v = s.indexOf('$xlang.') == 0 || s.indexOf('_lang.') == 0;
@@ -23543,8 +23543,8 @@ class w2field extends w2base {
                 'height': cntHeight + 'px',
                 overflow: (cntHeight == this.tmp['max-height'] ? 'auto' : 'hidden')
             })
-            query(div).css('height', cntHeight + 'px')
-            query(this.el).css({ 'height': cntHeight + 'px' })
+            //query(div).css('height', cntHeight + 'px')
+            //query(this.el).css({ 'height': cntHeight + 'px' })
         }
         // remember width
         this.tmp.current_width = width
@@ -24388,8 +24388,7 @@ class w2field extends w2base {
             margin-bottom: 0px;
             margin-left: ${styles['margin-left']};
             margin-right: ${styles['margin-right']};
-            width: ${(w2utils.getSize(this.el, 'width') - parseInt(styles['margin-left'], 10)
-                                - parseInt(styles['margin-right'], 10))}px;
+            width: ${(w2utils.getSize(this.el, 'width') - parseInt(styles['margin-left'], 10) - parseInt(styles['margin-right'], 10))}px;
         `)
         if (this.tmp['min-height'] == null) {
             let min = this.tmp['min-height'] = parseInt((styles['min-height'] != 'none' ? styles['min-height'] : 0) || 0)

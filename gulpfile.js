@@ -16,7 +16,7 @@ const comments = {
 }
 
 const legacy_replace = `export {
-    w2ui, w2utils, query, w2locale, w2event, w2base,
+    xlang, w2ui, w2utils, query, w2locale, w2event, w2base,
     w2popup, w2alert, w2confirm, w2prompt, Dialog,
     w2tooltip, w2menu, w2color, w2date, Tooltip,
     w2toolbar, w2sidebar, w2tabs, w2layout, w2grid, w2form, w2field
@@ -39,20 +39,21 @@ if (global) {
     })
 }
 })(self, {
-    w2ui, w2utils, query, w2locale, w2event, w2base,
+    xlang, w2ui, w2utils, query, w2locale, w2event, w2base,
     w2popup, w2alert, w2confirm, w2prompt, Dialog,
     w2tooltip, w2menu, w2color, w2date, Tooltip,
     w2toolbar, w2sidebar, w2tabs, w2layout, w2grid, w2form, w2field
 });`
 
 const exports_es6 = `export {
-    w2ui, w2utils, query, w2locale, w2event, w2base,
+    xlang, w2ui, w2utils, query, w2locale, w2event, w2base,
     w2popup, w2alert, w2confirm, w2prompt, Dialog,
     w2tooltip, w2menu, w2color, w2date, Tooltip,
     w2toolbar, w2sidebar, w2tabs, w2layout, w2grid, w2form, w2field
 }`
 
 const files_es6 = [
+    'src/_lang.js',
     'src/w2base.js', // order of files is important
     'src/w2locale.js',
     'src/query.js',
@@ -68,7 +69,7 @@ const files_es6 = [
     'src/w2field.js'
 ]
 const files_legacy = Array.from(files_es6)
-files_legacy.push('src/w2compat.js')
+files_legacy.push('src/_w2compat.js')
 
 let tasks = {
 

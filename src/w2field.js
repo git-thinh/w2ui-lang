@@ -48,19 +48,19 @@ class w2field extends w2base {
             options.type = type
         }
         options.type = String(options.type).toLowerCase()
-        this.el          = options.el ?? null
-        this.selected    = null
-        this.helpers     = {} // object or helper elements
-        this.type        = options.type ?? 'text'
-        this.options     = w2utils.clone(options)
-        this.onClick     = options.onClick ?? null
-        this.onAdd       = options.onAdd ?? null
-        this.onNew       = options.onNew ?? null
-        this.onRemove    = options.onRemove ?? null
-        this.onMouseEnter= options.onMouseEnter ?? null
-        this.onMouseLeave= options.onMouseLeave ?? null
-        this.onScroll    = options.onScroll ?? null
-        this.tmp         = {} // temp object
+        this.el = options.el ?? null
+        this.selected = null
+        this.helpers = {} // object or helper elements
+        this.type = options.type ?? 'text'
+        this.options = w2utils.clone(options)
+        this.onClick = options.onClick ?? null
+        this.onAdd = options.onAdd ?? null
+        this.onNew = options.onNew ?? null
+        this.onRemove = options.onRemove ?? null
+        this.onMouseEnter = options.onMouseEnter ?? null
+        this.onMouseLeave = options.onMouseLeave ?? null
+        this.onScroll = options.onScroll ?? null
+        this.tmp = {} // temp object
         // clean up some options
         delete this.options.type
         delete this.options.onClick
@@ -125,12 +125,12 @@ class w2field extends w2base {
                 }
                 this.options = w2utils.extend({}, defaults, options)
                 options = this.options // since object is re-created, need to re-assign
-                options.numberRE  = new RegExp('['+ options.groupSymbol + ']', 'g')
-                options.moneyRE   = new RegExp('['+ options.currency.prefix + options.currency.suffix + options.groupSymbol +']', 'g')
-                options.percentRE = new RegExp('['+ options.groupSymbol + '%]', 'g')
+                options.numberRE = new RegExp('[' + options.groupSymbol + ']', 'g')
+                options.moneyRE = new RegExp('[' + options.currency.prefix + options.currency.suffix + options.groupSymbol + ']', 'g')
+                options.percentRE = new RegExp('[' + options.groupSymbol + '%]', 'g')
                 // no keyboard support needed
                 if (['text', 'alphanumeric', 'hex', 'bin'].includes(this.type)) {
-                    options.arrows   = false
+                    options.arrows = false
                     options.keyboard = false
                 }
                 break
@@ -138,12 +138,12 @@ class w2field extends w2base {
             case 'color': {
                 let size = parseInt(getComputedStyle(this.el)['font-size']) || 12
                 defaults = {
-                    prefix      : '#',
-                    suffix      : `<div style="width: ${size}px; height: ${size}px; margin-top: -2px;
+                    prefix: '#',
+                    suffix: `<div style="width: ${size}px; height: ${size}px; margin-top: -2px;
                                     position: relative; top: 50%; transform: translateY(-50%);">&#160;</div>`,
-                    arrows      : false,
-                    advanced    : null, // open advanced by default
-                    transparent : true
+                    arrows: false,
+                    advanced: null, // open advanced by default
+                    transparent: true
                 }
                 this.options = w2utils.extend({}, defaults, options)
                 options = this.options // since object is re-created, need to re-assign
@@ -151,15 +151,15 @@ class w2field extends w2base {
             }
             case 'date': {
                 defaults = {
-                    format        : w2utils.settings.dateFormat, // date format
-                    keyboard      : true,   // if true, allows to select date with format
-                    autoCorrect   : true,   // correc date or shows the error
-                    start         : null,   // first date allowed to select
-                    end           : null,   // last date allowed to select
-                    blockDates    : [],     // array of blocked dates
-                    blockWeekdays : [],     // blocked weekdays 0 - sunday, 1 - monday, etc
-                    colored       : {},     // ex: { '3/13/2022': 'bg-color|text-color' }
-                    btnNow        : true    // if true, displays Now button
+                    format: w2utils.settings.dateFormat, // date format
+                    keyboard: true,   // if true, allows to select date with format
+                    autoCorrect: true,   // correc date or shows the error
+                    start: null,   // first date allowed to select
+                    end: null,   // last date allowed to select
+                    blockDates: [],     // array of blocked dates
+                    blockWeekdays: [],     // blocked weekdays 0 - sunday, 1 - monday, etc
+                    colored: {},     // ex: { '3/13/2022': 'bg-color|text-color' }
+                    btnNow: true    // if true, displays Now button
                 }
                 this.options = w2utils.extend({ type: 'date' }, defaults, options)
                 options = this.options // since object is re-created, need to re-assign
@@ -170,13 +170,13 @@ class w2field extends w2base {
             }
             case 'time': {
                 defaults = {
-                    format      : w2utils.settings.timeFormat,
-                    keyboard    : true,
-                    autoCorrect : true,
-                    start       : null,
-                    end         : null,
-                    btnNow      : true,
-                    noMinutes   : false
+                    format: w2utils.settings.timeFormat,
+                    keyboard: true,
+                    autoCorrect: true,
+                    start: null,
+                    end: null,
+                    btnNow: true,
+                    noMinutes: false
                 }
                 this.options = w2utils.extend({ type: 'time' }, defaults, options)
                 options = this.options // since object is re-created, need to re-assign
@@ -187,18 +187,18 @@ class w2field extends w2base {
             }
             case 'datetime': {
                 defaults = {
-                    format        : w2utils.settings.dateFormat + '|' + w2utils.settings.timeFormat,
-                    keyboard      : true,
-                    autoCorrect   : true,
-                    start         : null,
-                    end           : null,
-                    startTime     : null,
-                    endTime       : null,
-                    blockDates    : [], // array of blocked dates
-                    blockWeekdays : [], // blocked weekdays 0 - sunday, 1 - monday, etc
-                    colored       : {}, // ex: { '3/13/2022': 'bg-color|text-color' }
-                    btnNow        : true,
-                    noMinutes     : false
+                    format: w2utils.settings.dateFormat + '|' + w2utils.settings.timeFormat,
+                    keyboard: true,
+                    autoCorrect: true,
+                    start: null,
+                    end: null,
+                    startTime: null,
+                    endTime: null,
+                    blockDates: [], // array of blocked dates
+                    blockWeekdays: [], // blocked weekdays 0 - sunday, 1 - monday, etc
+                    colored: {}, // ex: { '3/13/2022': 'bg-color|text-color' }
+                    btnNow: true,
+                    noMinutes: false
                 }
                 this.options = w2utils.extend({ type: 'datetime' }, defaults, options)
                 options = this.options // since object is re-created, need to re-assign
@@ -210,43 +210,43 @@ class w2field extends w2base {
             case 'list':
             case 'combo': {
                 defaults = {
-                    items           : [],       // array of items, can be a function
-                    selected        : {},       // selected item
-                    itemMap         : null,     // can be { id: 'id', text: 'text' } to specify field mapping for an item
-                    match           : 'begins', // ['contains', 'is', 'begins', 'ends']
-                    filter          : true,     // weather to filter at all
-                    compare         : null,     // compare function for filtering
-                    prefix          : '',       // prefix for input
-                    suffix          : '',       // sufix for input
-                    icon            : null,     // icon class for selected item
-                    iconStyle       : '',       // icon style for selected item
+                    items: [],       // array of items, can be a function
+                    selected: {},       // selected item
+                    itemMap: null,     // can be { id: 'id', text: 'text' } to specify field mapping for an item
+                    match: 'begins', // ['contains', 'is', 'begins', 'ends']
+                    filter: true,     // weather to filter at all
+                    compare: null,     // compare function for filtering
+                    prefix: '',       // prefix for input
+                    suffix: '',       // sufix for input
+                    icon: null,     // icon class for selected item
+                    iconStyle: '',       // icon style for selected item
                     // -- remote items --
-                    url             : null,     // remove data source for items
-                    method          : null,     // default comes from w2utils.settings.dataType
-                    postData        : {},       // additional data to submit to URL
-                    recId           : null,     // map retrieved data from url to id, can be string or function
-                    recText         : null,     // map retrieved data from url to text, can be string or function
-                    debounce        : 250,      // number of ms to wait before sending server call on search
-                    minLength       : 1,        // min number of chars when trigger search
-                    cacheMax        : 250,
+                    url: null,     // remove data source for items
+                    method: null,     // default comes from w2utils.settings.dataType
+                    postData: {},       // additional data to submit to URL
+                    recId: null,     // map retrieved data from url to id, can be string or function
+                    recText: null,     // map retrieved data from url to text, can be string or function
+                    debounce: 250,      // number of ms to wait before sending server call on search
+                    minLength: 1,        // min number of chars when trigger search
+                    cacheMax: 250,
                     // -- drop items --
-                    renderDrop      : null,     // render function for drop down item
-                    maxDropHeight   : 350,      // max height for drop down menu
-                    maxDropWidth    : null,     // if null then auto set
-                    minDropWidth    : null,     // if null then auto set
+                    renderDrop: null,     // render function for drop down item
+                    maxDropHeight: 350,      // max height for drop down menu
+                    maxDropWidth: null,     // if null then auto set
+                    minDropWidth: null,     // if null then auto set
                     // -- misc --
-                    markSearch      : false,    // if true, highlights search phrase
-                    align           : 'both',   // align with the input ['left', 'right', 'both', 'none']
-                    altRows         : true,     // alternate row color for drop itesm
-                    openOnFocus     : false,    // if true, shows drop items on focus
-                    hideSelected    : false,    // hide selected item from drop down
-                    msgNoItems      : 'No matches',
-                    msgSearch       : 'Type to search...',
+                    markSearch: false,    // if true, highlights search phrase
+                    align: 'both',   // align with the input ['left', 'right', 'both', 'none']
+                    altRows: true,     // alternate row color for drop itesm
+                    openOnFocus: false,    // if true, shows drop items on focus
+                    hideSelected: false,    // hide selected item from drop down
+                    msgNoItems: 'No matches',
+                    msgSearch: 'Type to search...',
                     // -- events --
-                    onSearch        : null,     // when search needs to be performed
-                    onRequest       : null,     // when request is submitted
-                    onLoad          : null,     // when data is received
-                    onError         : null,     // when data fails to load due to server error
+                    onSearch: null,     // when search needs to be performed
+                    onRequest: null,     // when request is submitted
+                    onLoad: null,     // when data is received
+                    onError: null,     // when data fails to load due to server error
                 }
                 if (typeof options.items == 'function') {
                     options._items_fun = options.items
@@ -286,51 +286,51 @@ class w2field extends w2base {
             }
             case 'enum': {
                 defaults = {
-                    items           : [],    // id, text, tooltip, icon
-                    selected        : [],
-                    itemMap         : null,     // can be { id: 'id', text: 'text' } to specify field mapping for an item
-                    max             : 0,     // max number of selected items, 0 - unlimited
-                    match           : 'begins', // ['contains', 'is', 'begins', 'ends']
-                    filter          : true,  // if true, will apply filtering
-                    compare         : null,  // compare function for filtering
+                    items: [],    // id, text, tooltip, icon
+                    selected: [],
+                    itemMap: null,     // can be { id: 'id', text: 'text' } to specify field mapping for an item
+                    max: 0,     // max number of selected items, 0 - unlimited
+                    match: 'begins', // ['contains', 'is', 'begins', 'ends']
+                    filter: true,  // if true, will apply filtering
+                    compare: null,  // compare function for filtering
                     // -- remote items --
-                    url             : null,  // remove source for items
-                    method          : null,  // default httpMethod
-                    postData        : {},
-                    recId           : null,  // map retrieved data from url to id, can be string or function
-                    recText         : null,  // map retrieved data from url to text, can be string or function
-                    debounce        : 250,   // number of ms to wait before sending server call on search
-                    minLength       : 1,     // min number of chars when trigger search
-                    cacheMax        : 250,
+                    url: null,  // remove source for items
+                    method: null,  // default httpMethod
+                    postData: {},
+                    recId: null,  // map retrieved data from url to id, can be string or function
+                    recText: null,  // map retrieved data from url to text, can be string or function
+                    debounce: 250,   // number of ms to wait before sending server call on search
+                    minLength: 1,     // min number of chars when trigger search
+                    cacheMax: 250,
                     // -- item and drop items --
-                    maxItemWidth    : 250,   // max width for a single item
-                    maxDropHeight   : 350,   // max height for drop down menu
-                    maxDropWidth    : null,  // if null then auto set
-                    renderItem      : null,  // render selected item
-                    renderDrop      : null,  // render function for drop down item
+                    maxItemWidth: 250,   // max width for a single item
+                    maxDropHeight: 350,   // max height for drop down menu
+                    maxDropWidth: null,  // if null then auto set
+                    renderItem: null,  // render selected item
+                    renderDrop: null,  // render function for drop down item
                     // -- misc --
-                    style           : '',    // style for container div
-                    openOnFocus     : false, // if true, opens drop down on focus
-                    markSearch      : false, // if true, highlights search phrase
-                    align           : 'both',// align with the input ['left', 'right', 'both', 'none']
-                    altRows         : true,  // if ture, will use alternate row colors
-                    hideSelected    : true,  // hide selected items from drop down
-                    msgNoItems      : 'No matches',
-                    msgSearch       : 'Type to search...',
+                    style: '',    // style for container div
+                    openOnFocus: false, // if true, opens drop down on focus
+                    markSearch: false, // if true, highlights search phrase
+                    align: 'both',// align with the input ['left', 'right', 'both', 'none']
+                    altRows: true,  // if ture, will use alternate row colors
+                    hideSelected: true,  // hide selected items from drop down
+                    msgNoItems: 'No matches',
+                    msgSearch: 'Type to search...',
                     // -- events --
-                    onAdd           : null,  // when item is selected from drop down
-                    onNew           : null,  // when new item should be added
-                    onRemove        : null,  // when item is removed
-                    onSearch        : null,  // when search is triggered
-                    onClick         : null,  // when item is clicked
-                    onRequest       : null,  // when data is requested
-                    onLoad          : null,  // when data is received
-                    onError         : null,  // when data fails to load due to server error
-                    onScroll        : null,  // when div with selected items is scrolled
-                    onMouseEnter    : null,  // when mouse enters item
-                    onMouseLeave    : null,  // when mouse leaves item
+                    onAdd: null,  // when item is selected from drop down
+                    onNew: null,  // when new item should be added
+                    onRemove: null,  // when item is removed
+                    onSearch: null,  // when search is triggered
+                    onClick: null,  // when item is clicked
+                    onRequest: null,  // when data is requested
+                    onLoad: null,  // when data is received
+                    onError: null,  // when data fails to load due to server error
+                    onScroll: null,  // when div with selected items is scrolled
+                    onMouseEnter: null,  // when mouse enters item
+                    onMouseLeave: null,  // when mouse leaves item
                 }
-                options  = w2utils.extend({}, defaults, options, { suffix: '' })
+                options = w2utils.extend({}, defaults, options, { suffix: '' })
                 if (typeof options.items == 'function') {
                     options._items_fun = options.items
                 }
@@ -339,35 +339,35 @@ class w2field extends w2base {
                 if (!valid.includes(options.match)) {
                     console.log(`ERROR: invalid value "${options.match}" for option.match. It should be one of following: ${valid.join(', ')}.`)
                 }
-                options.items    = w2utils.normMenu.call(this, options.items, options)
+                options.items = w2utils.normMenu.call(this, options.items, options)
                 options.selected = w2utils.normMenu.call(this, options.selected, options)
-                this.options     = options
+                this.options = options
                 if (!Array.isArray(options.selected)) options.selected = []
                 this.selected = options.selected
                 break
             }
             case 'file': {
                 defaults = {
-                    selected      : [],     // array of selected files
-                    max           : 0,      // max number of selected files, 0 - unlim
-                    maxSize       : 0,      // max size of all files, 0 - unlimited
-                    maxFileSize   : 0,      // max size of a single file, 0 -unlimited
-                    renderItem    : null,   // render function fo the selected item
+                    selected: [],     // array of selected files
+                    max: 0,      // max number of selected files, 0 - unlim
+                    maxSize: 0,      // max size of all files, 0 - unlimited
+                    maxFileSize: 0,      // max size of a single file, 0 -unlimited
+                    renderItem: null,   // render function fo the selected item
                     // -- misc --
-                    maxItemWidth  : 250,    // max width for a single item
-                    maxDropHeight : 350,    // max height for drop down menu
-                    maxDropWidth  : null,   // if null then auto set
-                    readContent   : true,   // if true, it will readAsDataURL content of the file
-                    showErrors    : true,   // if not true, will show errors
-                    align         : 'both', // align with the input ['left', 'right', 'both', 'none']
-                    altRows       : true,   // alternate row color for drop itesm
-                    style         : '',     // style for container div
+                    maxItemWidth: 250,    // max width for a single item
+                    maxDropHeight: 350,    // max height for drop down menu
+                    maxDropWidth: null,   // if null then auto set
+                    readContent: true,   // if true, it will readAsDataURL content of the file
+                    showErrors: true,   // if not true, will show errors
+                    align: 'both', // align with the input ['left', 'right', 'both', 'none']
+                    altRows: true,   // alternate row color for drop itesm
+                    style: '',     // style for container div
                     // -- events --
-                    onClick       : null,   // when item is clicked
-                    onAdd         : null,   // when item is added
-                    onRemove      : null,   // when item is removed
-                    onMouseEnter  : null,   // when item is mouse over
-                    onMouseLeave  : null    // when item is mouse out
+                    onClick: null,   // when item is clicked
+                    onAdd: null,   // when item is added
+                    onRemove: null,   // when item is removed
+                    onMouseEnter: null,   // when item is mouse over
+                    onMouseLeave: null    // when item is mouse out
                 }
                 options = w2utils.extend({}, defaults, options)
                 this.options = options
@@ -460,8 +460,8 @@ class w2field extends w2base {
 
     refresh() {
         let options = this.options
-        let time    = Date.now()
-        let styles  = getComputedStyle(this.el)
+        let time = Date.now()
+        let styles = getComputedStyle(this.el)
         // update color
         if (this.type == 'color') {
             let color = this.el.value
@@ -549,20 +549,19 @@ class w2field extends w2base {
                     if (it == null) return
                     html += `
                         <div class="li-item" index="${ind}" style="max-width: ${parseInt(options.maxItemWidth)}px; ${it.style ? it.style : ''}">
-                        ${
-                            typeof options.renderItem === 'function'
+                        ${typeof options.renderItem === 'function'
                             ? options.renderItem(it, ind, `<div class="w2ui-list-remove" index="${ind}">&#160;&#160;</div>`)
                             : `
                                ${it.icon ? `<span class="w2ui-icon ${it.icon}"></span>` : ''}
                                <div class="w2ui-list-remove" index="${ind}">&#160;&#160;</div>
-                               ${(this.type === 'enum' ? it.text : it.name) ?? it.id ?? it }
+                               ${(this.type === 'enum' ? it.text : it.name) ?? it.id ?? it}
                                ${it.size ? `<span class="file-size"> - ${w2utils.formatSize(it.size)}</span>` : ''}
                             `
                         }
                         </div>`
                 })
             }
-            let ul  = div.find('.w2ui-multi-items')
+            let ul = div.find('.w2ui-multi-items')
             if (options.style) {
                 div.attr('style', div.attr('style') + ';' + options.style)
             }
@@ -599,9 +598,10 @@ class w2field extends w2base {
             if (html !== '') {
                 ul.prepend(html)
             } else if (query(this.el).attr('placeholder') != null && div.find('input').val() === '') {
+                //[?????]
+                //padding-top: ${styles['padding-top']};
+                //padding-left: ${styles['padding-left']};
                 let style = w2utils.stripSpaces(`
-                    padding-top: ${styles['padding-top']};
-                    padding-left: ${styles['padding-left']};
                     box-sizing: ${styles['box-sizing']};
                     line-height: ${styles['line-height']};
                     font-size: ${styles['font-size']};
@@ -623,8 +623,8 @@ class w2field extends w2base {
                 .find('.li-item')
                 .on('click.w2item', (event) => {
                     let target = query(event.target).closest('.li-item')
-                    let index  = target.attr('index')
-                    let item   = this.selected[index]
+                    let index = target.attr('index')
+                    let item = this.selected[index]
                     if (query(target).hasClass('li-search')) return
                     event.stopPropagation()
                     let edata
@@ -657,7 +657,7 @@ class w2field extends w2base {
                             if ((/image/i).test(item.type)) { // image
                                 preview = `
                                     <div class="w2ui-file-preview">
-                                        <img src="${(item.content ? 'data:'+ item.type +';base64,'+ item.content : '')}"
+                                        <img src="${(item.content ? 'data:' + item.type + ';base64,' + item.content : '')}"
                                             style="max-width: 300px">
                                     </div>`
                             }
@@ -682,20 +682,20 @@ class w2field extends w2base {
                                 hideOn: ['doc-click'],
                                 class: ''
                             })
-                            .show((event) => {
-                                let $img = query(`#w2overlay-${name} img`)
-                                $img.on('load', function (event) {
-                                    let w = this.clientWidth
-                                    let h = this.clientHeight
-                                    if (w < 300 & h < 300) return
-                                    if (w >= h && w > 300) query(this).css('width', '300px')
-                                    if (w < h && h > 300) query(this).css('height', '300px')
-                                })
-                                .on('error', function (event) {
-                                    this.style.display = 'none'
-                                })
+                                .show((event) => {
+                                    let $img = query(`#w2overlay-${name} img`)
+                                    $img.on('load', function (event) {
+                                        let w = this.clientWidth
+                                        let h = this.clientHeight
+                                        if (w < 300 & h < 300) return
+                                        if (w >= h && w > 300) query(this).css('width', '300px')
+                                        if (w < h && h > 300) query(this).css('height', '300px')
+                                    })
+                                        .on('error', function (event) {
+                                            this.style.display = 'none'
+                                        })
 
-                            })
+                                })
                         }
                     }
                     edata.finish()
@@ -740,8 +740,8 @@ class w2field extends w2base {
         // if (this.tmp.current_width == width && height > 0) return
         let styles = getComputedStyle(this.el)
 
-        let focus  = this.helpers.search
-        let multi  = this.helpers.multi
+        let focus = this.helpers.search
+        let multi = this.helpers.multi
         let suffix = this.helpers.suffix
         let prefix = this.helpers.prefix
 
@@ -779,8 +779,9 @@ class w2field extends w2base {
                 'height': cntHeight + 'px',
                 overflow: (cntHeight == this.tmp['max-height'] ? 'auto' : 'hidden')
             })
-            query(div).css('height', cntHeight + 'px')
-            query(this.el).css({ 'height': cntHeight + 'px' })
+            //[?????]
+            //query(div).css('height', cntHeight + 'px')
+            //query(this.el).css({ 'height': cntHeight + 'px' })
         }
         // remember width
         this.tmp.current_width = width
@@ -791,7 +792,7 @@ class w2field extends w2base {
         if (this.tmp != null) {
             query(this.el).css('height', '')
             Array('padding-left', 'padding-right', 'background-color', 'border-color').forEach(prop => {
-                if (this.tmp && this.tmp['old-'+ prop] != null) {
+                if (this.tmp && this.tmp['old-' + prop] != null) {
                     query(this.el).css(prop, this.tmp['old-' + prop])
                     delete this.tmp['old-' + prop]
                 }
@@ -815,7 +816,7 @@ class w2field extends w2base {
 
     clean(val) {
         // issue #499
-        if (typeof val === 'number'){
+        if (typeof val === 'number') {
             return val
         }
         let options = this.options
@@ -838,8 +839,8 @@ class w2field extends w2base {
                 let esc_gsroupSymbol = options.groupSymbol.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
                 let esc_decimalSymbol = options.decimalSymbol.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
                 val = val.replace(/\s+/g, '')
-                        .replace(new RegExp(esc_gsroupSymbol, 'g'), '')
-                        .replace(new RegExp(esc_decimalSymbol, 'g'), '.')
+                    .replace(new RegExp(esc_gsroupSymbol, 'g'), '')
+                    .replace(new RegExp(esc_decimalSymbol, 'g'), '.')
             }
             if (val !== '' && w2utils.isFloat(val)) val = Number(val); else val = ''
         }
@@ -895,7 +896,7 @@ class w2field extends w2base {
         if (this.type === 'color') {
             let color = query(this.el).val()
             if (color.substr(0, 3).toLowerCase() !== 'rgb') {
-                color   = '#' + color
+                color = '#' + color
                 let len = query(this.el).val().length
                 if (len !== 8 && len !== 6 && len !== 3) color = ''
             }
@@ -960,7 +961,7 @@ class w2field extends w2base {
             this.helpers.search_focus.focus()
             // update overlay if needed
             if (event.showMenu !== false && (this.options.openOnFocus !== false && query(this.el).hasClass('has-focus'))
-                    && !this.tmp.overlay?.overlay?.displayed) {
+                && !this.tmp.overlay?.overlay?.displayed) {
                 setTimeout(() => {
                     this.tmp.openedOnFocus = true
                     this.updateOverlay()
@@ -999,7 +1000,7 @@ class w2field extends w2base {
             this.resize()
             // update overlay if needed
             if (event.showMenu !== false && (this.options.openOnFocus !== false && query(this.el).hasClass('has-focus'))
-                    && !this.tmp.overlay?.overlay?.displayed) {
+                && !this.tmp.overlay?.overlay?.displayed) {
                 setTimeout(() => {
                     this.tmp.openedOnFocus = true
                     this.updateOverlay()
@@ -1053,7 +1054,7 @@ class w2field extends w2base {
                 let check = this.type == 'date' ? w2utils.isDate :
                     (this.type == 'time' ? w2utils.isTime : w2utils.isDateTime)
                 if (!w2date.inRange(this.el.value, this.options)
-                        || !check.bind(w2utils)(this.el.value, this.options.format)) {
+                    || !check.bind(w2utils)(this.el.value, this.options.format)) {
                     // if not in range or wrong value - clear it
                     query(this.el).val('').trigger('input').trigger('change')
                 }
@@ -1078,14 +1079,14 @@ class w2field extends w2base {
 
     keyDown(event, extra) {
         let options = this.options
-        let key     = event.keyCode || (extra && extra.keyCode)
-        let cancel  = false
+        let key = event.keyCode || (extra && extra.keyCode)
+        let cancel = false
         let val, inc, daymil, dt, newValue, newDT
         // ignore wrong pressed key
         if (['int', 'float', 'money', 'currency', 'percent', 'hex', 'bin', 'color', 'alphanumeric'].includes(this.type)) {
             if (!event.metaKey && !event.ctrlKey && !event.altKey) {
                 if (!this.isStrValid(event.key ?? '1', true) && // valid & is not arrows, dot, comma, etc keys
-                        ![9, 8, 13, 27, 37, 38, 39, 40, 46].includes(event.keyCode)) {
+                    ![9, 8, 13, 27, 37, 38, 39, 40, 46].includes(event.keyCode)) {
                     event.preventDefault()
                     if (event.stopPropagation) event.stopPropagation(); else event.cancelBubble = true
                     return false
@@ -1123,7 +1124,7 @@ class w2field extends w2base {
             let is = (this.type == 'date' ? w2utils.isDate : w2utils.isDateTime).bind(w2utils)
             let format = (this.type == 'date' ? w2utils.formatDate : w2utils.formatDateTime).bind(w2utils)
 
-            daymil = 24*60*60*1000
+            daymil = 24 * 60 * 60 * 1000
             inc = 1
             if (event.ctrlKey || event.metaKey) inc = 10 // by month
             dt = is(query(this.el).val(), options.format, true)
@@ -1167,12 +1168,12 @@ class w2field extends w2base {
             switch (key) {
                 case 38: // up
                     if (event.shiftKey) break // no action if shift key is pressed
-                    time  += inc
+                    time += inc
                     cancel = true
                     break
                 case 40: // down
                     if (event.shiftKey) break // no action if shift key is pressed
-                    time  -= inc
+                    time -= inc
                     cancel = true
                     break
             }
@@ -1316,14 +1317,14 @@ class w2field extends w2base {
                 color: this.el.value,
                 liveUpdate: true
             }, this.options))
-            .select(event => {
-                let color = event.detail.color
-                query(this.el).val(color).trigger('input').trigger('change')
-            })
-            .liveUpdate(event => {
-                let color = event.detail.color
-                query(this.helpers.suffix).find(':scope > div').css('background-color', '#' + color)
-            })
+                .select(event => {
+                    let color = event.detail.color
+                    query(this.el).val(color).trigger('input').trigger('change')
+                })
+                .liveUpdate(event => {
+                    let color = event.detail.color
+                    query(this.helpers.suffix).find(':scope > div').css('background-color', '#' + color)
+                })
         }
         // list
         if (['list', 'combo', 'enum'].includes(this.type)) {
@@ -1394,12 +1395,12 @@ class w2field extends w2base {
                 anchor: this.el,
                 value: this.el.value,
             }, this.options))
-            .select(event => {
-                let date = event.detail.date
-                if (date != null) {
-                    query(this.el).val(date).trigger('input').trigger('change')
-                }
-            })
+                .select(event => {
+                    let date = event.detail.date
+                    if (date != null) {
+                        query(this.el).val(date).trigger('input').trigger('change')
+                    }
+                })
         }
     }
 
@@ -1464,21 +1465,21 @@ class w2field extends w2base {
         helper = query(this.el).get(0).previousElementSibling
         query(helper)
             .css({
-                'color'          : styles.color,
-                'font-family'    : styles['font-family'],
-                'font-size'      : styles['font-size'],
-                'height'         : this.el.clientHeight + 'px',
-                'padding-top'    : parseInt(styles['padding-top'], 10) + 1 + 'px',
-                'padding-bottom' : parseInt(styles['padding-bottom'], 10) - 1 + 'px',
-                'padding-left'   : this.tmp['old-padding-left'],
-                'padding-right'  : 0,
-                'margin-top'     : (parseInt(styles['margin-top'], 10)) + 'px',
-                'margin-bottom'  : (parseInt(styles['margin-bottom'], 10)) + 'px',
-                'margin-left'    : styles['margin-left'],
-                'margin-right'   : 0,
-                'z-index'        : 1,
-                'display'        : 'inline-flex',
-                'align-items'    : 'center'
+                'color': styles.color,
+                'font-family': styles['font-family'],
+                'font-size': styles['font-size'],
+                'height': this.el.clientHeight + 'px',
+                'padding-top': parseInt(styles['padding-top'], 10) + 1 + 'px',
+                'padding-bottom': parseInt(styles['padding-bottom'], 10) - 1 + 'px',
+                'padding-left': this.tmp['old-padding-left'],
+                'padding-right': 0,
+                'margin-top': (parseInt(styles['margin-top'], 10)) + 'px',
+                'margin-bottom': (parseInt(styles['margin-bottom'], 10)) + 'px',
+                'margin-left': styles['margin-left'],
+                'margin-right': 0,
+                'z-index': 1,
+                'display': 'inline-flex',
+                'align-items': 'center'
             })
         // only if visible
         query(this.el).css('padding-left', helper.clientWidth + 'px !important')
@@ -1502,28 +1503,28 @@ class w2field extends w2base {
             if (this.helpers.arrows) query(this.helpers.arrows).remove()
             // add fresh
             query(this.el).after(
-                '<div class="w2ui-field-helper" style="border: 1px solid transparent">&#160;'+
-                '    <div class="w2ui-field-up" type="up">'+
-                '        <div class="arrow-up" type="up"></div>'+
-                '    </div>'+
-                '    <div class="w2ui-field-down" type="down">'+
-                '        <div class="arrow-down" type="down"></div>'+
-                '    </div>'+
+                '<div class="w2ui-field-helper" style="border: 1px solid transparent">&#160;' +
+                '    <div class="w2ui-field-up" type="up">' +
+                '        <div class="arrow-up" type="up"></div>' +
+                '    </div>' +
+                '    <div class="w2ui-field-down" type="down">' +
+                '        <div class="arrow-down" type="down"></div>' +
+                '    </div>' +
                 '</div>')
             helper = query(this.el).get(0).nextElementSibling
             query(helper).css({
-                'color'         : styles.color,
-                'font-family'   : styles['font-family'],
-                'font-size'     : styles['font-size'],
-                'height'        : this.el.clientHeight + 'px',
-                'padding'       : 0,
-                'margin-top'    : (parseInt(styles['margin-top'], 10) + 1) + 'px',
-                'margin-bottom' : 0,
-                'border-left'   : '1px solid silver',
-                'width'         : '16px',
-                'transform'     : 'translateX(-100%)'
+                'color': styles.color,
+                'font-family': styles['font-family'],
+                'font-size': styles['font-size'],
+                'height': this.el.clientHeight + 'px',
+                'padding': 0,
+                'margin-top': (parseInt(styles['margin-top'], 10) + 1) + 'px',
+                'margin-bottom': 0,
+                'border-left': '1px solid silver',
+                'width': '16px',
+                'transform': 'translateX(-100%)'
             })
-                .on('mousedown', function(event) {
+                .on('mousedown', function (event) {
                     if (query(event.target).hasClass('arrow-up')) {
                         self.keyDown(event, { keyCode: 38 })
                     }
@@ -1543,17 +1544,17 @@ class w2field extends w2base {
             helper = query(this.el).get(0).nextElementSibling
             query(helper)
                 .css({
-                    'color'          : styles.color,
-                    'font-family'    : styles['font-family'],
-                    'font-size'      : styles['font-size'],
-                    'height'        : this.el.clientHeight + 'px',
-                    'padding-top'    : styles['padding-top'],
-                    'padding-bottom' : styles['padding-bottom'],
-                    'padding-left'   : 0,
-                    'padding-right'  : styles['padding-right'],
-                    'margin-top'     : (parseInt(styles['margin-top'], 10) + 2) + 'px',
-                    'margin-bottom'  : (parseInt(styles['margin-bottom'], 10) + 1) + 'px',
-                    'transform'      : 'translateX(-100%)'
+                    'color': styles.color,
+                    'font-family': styles['font-family'],
+                    'font-size': styles['font-size'],
+                    'height': this.el.clientHeight + 'px',
+                    'padding-top': styles['padding-top'],
+                    'padding-bottom': styles['padding-bottom'],
+                    'padding-left': 0,
+                    'padding-right': styles['padding-right'],
+                    'margin-top': (parseInt(styles['margin-top'], 10) + 2) + 'px',
+                    'margin-bottom': (parseInt(styles['margin-bottom'], 10) + 1) + 'px',
+                    'transform': 'translateX(-100%)'
                 })
 
             query(this.el).css('padding-right', helper.clientWidth + 'px !important')
@@ -1589,21 +1590,21 @@ class w2field extends w2base {
         this.helpers.search_focus = query(helper).find('input').get(0)
         let styles = getComputedStyle(this.el)
         query(helper).css({
-                width           : this.el.clientWidth + 'px',
-                'margin-top'    : styles['margin-top'],
-                'margin-left'   : styles['margin-left'],
-                'margin-bottom' : styles['margin-bottom'],
-                'margin-right'  : styles['margin-right']
-            })
+            width: this.el.clientWidth + 'px',
+            'margin-top': styles['margin-top'],
+            'margin-left': styles['margin-left'],
+            'margin-bottom': styles['margin-bottom'],
+            'margin-right': styles['margin-right']
+        })
             .find('input')
             .css({
-                cursor   : 'default',
-                width    : '100%',
-                opacity  : 1,
-                padding  : styles.padding,
-                margin   : styles.margin,
-                border   : '1px solid transparent',
-                'background-color' : 'transparent'
+                cursor: 'default',
+                width: '100%',
+                opacity: 1,
+                padding: styles.padding,
+                margin: styles.margin,
+                border: '1px solid transparent',
+                'background-color': 'transparent'
             })
         // INPUT events
         query(helper).find('input')
@@ -1638,15 +1639,14 @@ class w2field extends w2base {
         // clean up & init
         query(this.helpers.multi).remove()
         // build helper
-        let html   = ''
+        let html = ''
         let styles = getComputedStyle(this.el)
         let margin = w2utils.stripSpaces(`
             margin-top: 0px;
             margin-bottom: 0px;
             margin-left: ${styles['margin-left']};
             margin-right: ${styles['margin-right']};
-            width: ${(w2utils.getSize(this.el, 'width') - parseInt(styles['margin-left'], 10)
-                                - parseInt(styles['margin-right'], 10))}px;
+            width: ${(w2utils.getSize(this.el, 'width') - parseInt(styles['margin-left'], 10) - parseInt(styles['margin-right'], 10))}px;
         `)
         if (this.tmp['min-height'] == null) {
             let min = this.tmp['min-height'] = parseInt((styles['min-height'] != 'none' ? styles['min-height'] : 0) || 0)
@@ -1675,8 +1675,8 @@ class w2field extends w2base {
                     <div class="li-search">
                         <input ${searchId} type="text" autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false"
                             tabindex="${tabIndex}"
-                            ${query(this.el).prop('readOnly') ? 'readonly': '' }
-                            ${query(this.el).prop('disabled') ? 'disabled': '' }>
+                            ${query(this.el).prop('readOnly') ? 'readonly' : ''}
+                            ${query(this.el).prop('disabled') ? 'disabled' : ''}>
                     </div>
                 </div>
             </div>`
@@ -1688,22 +1688,22 @@ class w2field extends w2base {
                     <input name="attachment" class="file-input" type="file" tabindex="-1"'
                         style="width: 100%; height: 100%; opacity: 0" title=""
                         ${this.options.max !== 1 ? 'multiple' : ''}
-                        ${query(this.el).prop('readOnly') || query(this.el).prop('disabled') ? 'disabled': ''}
-                        ${query(this.el).attr('accept') ? ' accept="'+ query(this.el).attr('accept') +'"': ''}>
+                        ${query(this.el).prop('readOnly') || query(this.el).prop('disabled') ? 'disabled' : ''}
+                        ${query(this.el).attr('accept') ? ' accept="' + query(this.el).attr('accept') + '"' : ''}>
                 </div>
                 <div class="w2ui-multi-items">
                     <div class="li-search" style="display: none">
                         <input ${searchId} type="text" autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false"
                             tabindex="${tabIndex}"
-                            ${query(this.el).prop('readOnly') ? 'readonly': '' }
-                            ${query(this.el).prop('disabled') ? 'disabled': '' }>
+                            ${query(this.el).prop('readOnly') ? 'readonly' : ''}
+                            ${query(this.el).prop('disabled') ? 'disabled' : ''}>
                     </div>
                 </div>
             </div>`
         }
         // old bg and border
         this.tmp['old-background-color'] = styles['background-color']
-        this.tmp['old-border-color']     = styles['border-color']
+        this.tmp['old-border-color'] = styles['border-color']
 
         query(this.el)
             .before(html)
@@ -1774,12 +1774,12 @@ class w2field extends w2base {
         let options = this.options
         let selected = this.selected
         let newItem = {
-            name     : file.name,
-            type     : file.type,
-            modified : file.lastModifiedDate,
-            size     : file.size,
-            content  : null,
-            file     : file
+            name: file.name,
+            type: file.type,
+            modified: file.lastModifiedDate,
+            size: file.size,
+            content: null,
+            file: file
         }
         let size = 0
         let cnt = 0
@@ -1788,7 +1788,8 @@ class w2field extends w2base {
             selected.forEach(item => {
                 if (item.name == file.name && item.size == file.size) {
                     errors.push(w2utils.lang('The file "${name}" (${size}) is already added.', {
-                        name: file.name, size: w2utils.formatSize(file.size) }))
+                        name: file.name, size: w2utils.formatSize(file.size)
+                    }))
                 }
                 size += item.size
                 cnt++
