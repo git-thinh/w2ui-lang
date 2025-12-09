@@ -32,6 +32,7 @@ import query from './query.js'
 import { w2base } from './w2base.js'
 import { w2utils } from './w2utils.js'
 import { w2tooltip, w2color, w2menu, w2date } from './w2tooltip.js'
+import { xlang } from './_lang.js'
 
 class w2field extends w2base {
     constructor(type, options) {
@@ -607,7 +608,7 @@ class w2field extends w2base {
                     font-family: ${styles['font-family']};
                 `)
                 const _placeholder = query(this.el).attr('placeholder')
-                div.prepend(`<div class="w2ui-enum-placeholder" style="${style}" xlang="${_placeholder}">${w2utils.lang(_placeholder)}</div>`)
+                div.prepend(`<div class="w2ui-enum-placeholder" style="${style}" ${xlang(_placeholder)}>${w2utils.lang(_placeholder)}</div>`)
             }
             // ITEMS events
             div.off('.w2item')

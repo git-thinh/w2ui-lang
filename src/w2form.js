@@ -41,6 +41,7 @@ import { w2tabs } from './w2tabs.js'
 import { w2toolbar } from './w2toolbar.js'
 import { w2tooltip } from './w2tooltip.js'
 import { w2field } from './w2field.js'
+import { xlang } from './_lang.js'
 
 class w2form extends w2base {
     constructor(options) {
@@ -1423,7 +1424,7 @@ class w2form extends w2base {
                     input = `
                         <label class="w2ui-box-label">
                             <input id="${field.field}" name="${field.field}" class="w2ui-input ${field.html.class ?? ''}" type="checkbox" ${field.html.attr + tabindex_str}>
-                            <span xlang="${field.html.label}">${field.html.label}</span>
+                            <span ${xlang(field.html.label)}>${field.html.label}</span>
                         </label>`
                     break
                 }
@@ -1444,7 +1445,7 @@ class w2form extends w2base {
                                 <label class="w2ui-box-label">
                                     <input id="${field.field + i}" name="${field.field}" class="w2ui-input ${field.html.class ?? ''}" type="checkbox"
                                         ${tabindex_str} data-value="${items[i].id}" data-index="${i}">
-                                    <span>&#160;<span xlang="${items[i].text}">${items[i].text}</span></span>
+                                    <span>&#160;<span ${xlang(items[i].text)}>${items[i].text}</span></span>
                                 </label>
                             </div>`
                     }
@@ -1468,7 +1469,7 @@ class w2form extends w2base {
                                     <input id="${field.field + i}" name="${field.field}" class="w2ui-input ${field.html.class ?? ''}" type="radio"
                                         ${(i === 0 ? tabindex_str : '')}
                                         data-value="${items[i].id}" data-index="${i}">
-                                    <span>&#160;<span xlang="${items[i].text}">${items[i].text}</span></span>
+                                    <span>&#160;<span ${xlang(items[i].text)}>${items[i].text}</span></span>
                                 </label>
                             </div>`
                     }
@@ -1566,8 +1567,7 @@ class w2form extends w2base {
                 let span = (field.html.span != null ? 'w2ui-span' + field.html.span : '')
                 if (field.html.span == -1) span = 'w2ui-span-none'
                 let label = `
-                    <label ${span == 'none' ? ' style="display: none"' : ''} 
-                        xlang="${field.type != 'checkbox' ? field.html.label : field.html.text}">
+                    <label ${span == 'none' ? ' style="display: none"' : ''} ${xlang(field.type != 'checkbox' ? field.html.label : field.html.text)}>
                         ${w2utils.lang(field.type != 'checkbox' ? field.html.label : field.html.text)}
                     </label>`
                 if (!field.html.label) label = ''
@@ -1576,49 +1576,39 @@ class w2form extends w2base {
                 pages[field.html.page].anchors[field.html.col_anchor] = `
                     <div class="w2ui-field ${span}" style="${(field.hidden ? 'display: none;' : '') + field.html.style}">
                         ${label}
-                        ${['empty', 'switch', 'radio', 'check', 'checks'].includes(field.type)
-                        ? input
-                        : `<div>${input + text}</div>`
-                    }
+                        ${['empty', 'switch', 'radio', 'check', 'checks'].includes(field.type) ? input : `<div>${input + text}</div>`}
                     </div>`
             } else if (field.html.anchor != null) {
                 let span = (field.html.span != null ? 'w2ui-span' + field.html.span : 'w2ui-span0')
                 let label = w2utils.lang(field.type != 'checkbox' ? field.html.label : field.html.text, true)
-                let text = `<span xlang="${field.type != 'checkbox' ? field.html.text : ''}">` +
+                let text = `<span ${xlang(field.type != 'checkbox' ? field.html.text : '')}>` +
                     w2utils.lang(field.type != 'checkbox' ? field.html.text : '') + `</span>`
                 if (field.html.span == -1) {
-                    label = `<span style="position: absolute"> <span class="w2ui-anchor-span-none w2ui-inline-label" 
-                                xlang="${field.type != 'checkbox' ? field.html.label : field.html.text}"> ${label} </span> </span>`
+                    const xl = xlang(field.type != 'checkbox' ? field.html.label : field.html.text);
+                    label = `<span style="position: absolute"><span class="w2ui-anchor-span-none w2ui-inline-label" ${xl}> ${label} </span></span>`
                 } else {
-                    label = `<span class="w2ui-inline-label"
-                                xlang="${field.type != 'checkbox' ? field.html.label : field.html.text}"> ${label} </span>`
+                    const xl = xlang(field.type != 'checkbox' ? field.html.label : field.html.text);
+                    label = `<span class="w2ui-inline-label" ${xl}> ${label} </span>`
                 }
                 pages[field.html.page].anchors ??= {}
                 pages[field.html.page].anchors[field.html.anchor] = `
                     <div class="w2ui-field w2ui-field-inline ${span}" style="${(field.hidden ? 'display: none;' : '') + field.html.style}">
-                        ${((field.type === 'empty' || field.type == 'switch')
-                        ? input
-                        : `<div>${label} ${input} ${text}</div>`
-                    )}
+                        ${((field.type === 'empty' || field.type == 'switch') ? input : `<div>${label} ${input} ${text}</div>`)}
                     </div>`
             } else {
                 let span = (field.html.span != null ? 'w2ui-span' + field.html.span : '')
                 if (field.html.span == -1) span = 'w2ui-span-none'
                 let label = `
-                    <label ${span == 'none' ? ' style="display: none"' : ''} 
-                        xlang="${field.type != 'checkbox' ? field.html.label : field.html.text}">
+                    <label ${span == 'none' ? ' style="display: none"' : ''} ${xlang(field.type != 'checkbox' ? field.html.label : field.html.text)}>
                         ${w2utils.lang(field.type != 'checkbox' ? field.html.label : field.html.text)}
                     </label>`
                 if (!field.html.label) label = ''
                 let text = (field.type != 'array' && field.type != 'map' ? w2utils.lang(field.type != 'checkbox' ? field.html.text : '') : '')
-                text = `<span xlang="${field.type != 'checkbox' ? field.html.text : ''}">${text}</span>`
+                text = `<span ${xlang(field.type != 'checkbox' ? field.html.text : '')}>${text}</span>`
                 html += `
                     <div class="w2ui-field ${span}" style="${(field.hidden ? 'display: none;' : '') + field.html.style}">
                         ${label}
-                        ${['empty', 'switch', 'radio', 'check', 'checks'].includes(field.type)
-                        ? input
-                        : `<div>${input + text}</div>`
-                    }
+                        ${['empty', 'switch', 'radio', 'check', 'checks'].includes(field.type) ? input : `<div>${input + text}</div>`}
                     </div>`
             }
             if (pages[field.html.page] == null) pages[field.html.page] = {}
@@ -2301,7 +2291,7 @@ class w2form extends w2base {
         if (!this.box) return
         // render form
         let html = '<div class="w2ui-form-box">' +
-            (this.header !== '' ? `<div class="w2ui-form-header" xlang="${this.header}">` + w2utils.lang(this.header) + '</div>' : '') +
+            (this.header !== '' ? (`<div class="w2ui-form-header" ${xlang(this.header)}>` + w2utils.lang(this.header) + '</div>') : '') +
             '    <div id="form_' + this.name + '_toolbar" class="w2ui-form-toolbar" style="display: none"></div>' +
             '    <div id="form_' + this.name + '_tabs" class="w2ui-form-tabs" style="display: none"></div>' +
             this.formHTML +

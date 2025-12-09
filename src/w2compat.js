@@ -11,6 +11,7 @@
  *   - CSP - fixed inline events
  */
 
+import { xlang } from './_lang.js'
 import { w2locale } from './w2locale.js'
 import { w2event, w2base } from './w2base.js'
 import { w2ui, w2utils } from './w2utils.js'
@@ -35,7 +36,7 @@ import { w2tooltip, w2color, w2menu, w2date, Tooltip } from './w2tooltip.js'
                 win[key] = obj[key]
             })
         })(window, {
-            w2ui, w2utils, query, w2locale, w2event, w2base,
+            xlang, w2ui, w2utils, query, w2locale, w2event, w2base,
             w2popup, w2alert, w2confirm, w2prompt, Dialog,
             w2tooltip, w2menu, w2color, w2date, Tooltip,
             w2toolbar, w2sidebar, w2tabs, w2layout, w2grid, w2form, w2field
@@ -200,7 +201,7 @@ import { w2tooltip, w2color, w2menu, w2date, Tooltip } from './w2tooltip.js'
 })(window.jQuery)
 
 export {
-    w2ui, w2utils, query, w2locale, w2event, w2base,
+    xlang, w2ui, w2utils, query, w2locale, w2event, w2base,
     w2popup, w2alert, w2confirm, w2prompt, Dialog,
     w2tooltip, w2menu, w2color, w2date, Tooltip,
     w2toolbar, w2sidebar, w2tabs, w2layout, w2grid, w2form, w2field

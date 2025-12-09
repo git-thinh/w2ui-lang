@@ -15,3 +15,4 @@ dist/w2ui-*.tgz
 *.iws
 .DAV
 *~
+yarn.lock
