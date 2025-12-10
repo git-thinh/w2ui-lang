@@ -31,6 +31,7 @@ import { w2base } from './w2base.js'
 import { w2ui, w2utils } from './w2utils.js'
 import { query } from './query.js'
 import { w2tooltip, w2color, w2menu } from './w2tooltip.js'
+import { xlang } from './_lang.js'
 
 class w2toolbar extends w2base {
     constructor(options) {
@@ -843,7 +844,7 @@ class w2toolbar extends w2base {
                         ${ icon }
                         ${ (text != '' && text != null) || item.count != null || arrow
                             ? `<div class="w2ui-tb-text" style="${item.type != 'label' ? (item.style ?? '') : ''}; ${!text ? 'padding-left: 0; margin-left: 23px;' : ''}">
-                                    ${ w2utils.lang(text) }
+                                    <span ${xlang(text)}>${w2utils.lang(text)}</span>                                    
                                     ${ item.count != null
                                         ? w2utils.stripSpaces(`
                                             <span class="w2ui-tb-count">

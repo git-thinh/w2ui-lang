@@ -18,31 +18,32 @@ import { w2base } from './w2base.js'
 import { w2ui, w2utils } from './w2utils.js'
 import { query } from './query.js'
 import { w2tooltip } from './w2tooltip.js'
+import { xlang } from './_lang.js'
 
 class w2tabs extends w2base {
     constructor(options) {
         super(options.name)
-        this.box          = null // DOM Element that holds the element
-        this.name         = null // unique name for w2ui
-        this.active       = null
-        this.reorder      = false
-        this.flow         = 'down' // can be down or up
-        this.tooltip      = 'top|left' // can be top, bottom, left, right
-        this.tabs         = []
-        this.routeData    = {} // data for dynamic routes
-        this.last         = {} // placeholder for internal variables
-        this.right        = ''
-        this.style        = ''
-        this.onClick      = null
+        this.box = null // DOM Element that holds the element
+        this.name = null // unique name for w2ui
+        this.active = null
+        this.reorder = false
+        this.flow = 'down' // can be down or up
+        this.tooltip = 'top|left' // can be top, bottom, left, right
+        this.tabs = []
+        this.routeData = {} // data for dynamic routes
+        this.last = {} // placeholder for internal variables
+        this.right = ''
+        this.style = ''
+        this.onClick = null
         this.onMouseEnter = null // mouse enter and lease
         this.onMouseLeave = null
-        this.onMouseDown  = null
-        this.onMouseUp    = null
-        this.onClose      = null
-        this.onRender     = null
-        this.onRefresh    = null
-        this.onResize     = null
-        this.onDestroy    = null
+        this.onMouseDown = null
+        this.onMouseUp = null
+        this.onClose = null
+        this.onRender = null
+        this.onRefresh = null
+        this.onResize = null
+        this.onDestroy = null
         this.tab_template = {
             id: null,
             text: null,
@@ -202,14 +203,14 @@ class w2tabs extends w2base {
         if (!this.last.reordering) return
         let self = this
         let info = this.last.moving
-        let tab  = this.tabs[info.index]
+        let tab = this.tabs[info.index]
         let next = _find(info.index, 1)
         let prev = _find(info.index, -1)
-        let $el  = query(this.box).find('#tabs_'+ this.name + '_tab_'+ w2utils.escapeId(tab.id))
+        let $el = query(this.box).find('#tabs_' + this.name + '_tab_' + w2utils.escapeId(tab.id))
         if (info.divX > 0 && next) {
-            let $nextEl = query(this.box).find('#tabs_'+ this.name + '_tab_'+ w2utils.escapeId(next.id))
-            let width1  = parseInt($el.get(0).clientWidth)
-            let width2  = parseInt($nextEl.get(0).clientWidth)
+            let $nextEl = query(this.box).find('#tabs_' + this.name + '_tab_' + w2utils.escapeId(next.id))
+            let width1 = parseInt($el.get(0).clientWidth)
+            let width2 = parseInt($nextEl.get(0).clientWidth)
             if (width1 < width2) {
                 width1 = Math.floor(width1 / 3)
                 width2 = width2 - width1
@@ -232,9 +233,9 @@ class w2tabs extends w2base {
             }
         }
         if (info.divX < 0 && prev) {
-            let $prevEl = query(this.box).find('#tabs_'+ this.name + '_tab_'+ w2utils.escapeId(prev.id))
-            let width1  = parseInt($el.get(0).clientWidth)
-            let width2  = parseInt($prevEl.get(0).clientWidth)
+            let $prevEl = query(this.box).find('#tabs_' + this.name + '_tab_' + w2utils.escapeId(prev.id))
+            let width1 = parseInt($el.get(0).clientWidth)
+            let width2 = parseInt($prevEl.get(0).clientWidth)
             if (width1 < width2) {
                 width1 = Math.floor(width1 / 3)
                 width2 = width2 - width1
@@ -257,7 +258,7 @@ class w2tabs extends w2base {
             }
         }
         function _find(ind, inc) {
-            ind    += inc
+            ind += inc
             let tab = self.tabs[ind]
             if (tab && tab.hidden) {
                 tab = _find(ind, inc)
@@ -288,7 +289,7 @@ class w2tabs extends w2base {
 
     tooltipShow(id) {
         let tab = this.get(id)
-        let el = query(this.box).find('#tabs_'+ this.name + '_tab_'+ w2utils.escapeId(id)).get(0)
+        let el = query(this.box).find('#tabs_' + this.name + '_tab_' + w2utils.escapeId(id)).get(0)
         if (this.tooltip == null || tab?.disabled || this.last.reordering) {
             return
         }
@@ -310,7 +311,7 @@ class w2tabs extends w2base {
 
     getTabHTML(id) {
         let index = this.get(id, true)
-        let tab   = this.tabs[index]
+        let tab = this.tabs[index]
         if (tab == null) return false
         if (tab.text == null && tab.caption != null) tab.text = tab.caption
         if (tab.tooltip == null && tab.hint != null) tab.tooltip = tab.hint // for backward compatibility
@@ -345,7 +346,7 @@ class w2tabs extends w2base {
                 data-mouseleave="mouseAction|Leave|${tab.id}|event]"
                 data-mousedown="mouseAction|Down|${tab.id}|event"
                 data-mouseup="mouseAction|Up|${tab.id}|event"
-                data-click="click|${tab.id}|event">
+                data-click="click|${tab.id}|event" ${xlang(text)}>
                     ${icon + w2utils.lang(text) + closable}
             </div>`
     }
@@ -367,11 +368,11 @@ class w2tabs extends w2base {
             }
         } else {
             // create or refresh only one item
-            let selector = '#tabs_'+ this.name +'_tab_'+ w2utils.escapeId(id)
+            let selector = '#tabs_' + this.name + '_tab_' + w2utils.escapeId(id)
             let $tab = query(this.box).find(selector)
             let tabHTML = this.getTabHTML(id)
             if ($tab.length === 0) {
-                query(this.box).find('#tabs_'+ this.name +'_right').before(tabHTML)
+                query(this.box).find('#tabs_' + this.name + '_right').before(tabHTML)
             } else {
                 if (query(this.box).find('.tab-animate-insert').length == 0) {
                     $tab.replace(tabHTML)
@@ -380,7 +381,7 @@ class w2tabs extends w2base {
             w2utils.bindEvents(query(this.box).find(`${selector}, ${selector} .w2ui-eaction`), this)
         }
         // right html
-        query(this.box).find('#tabs_'+ this.name +'_right').html(this.right)
+        query(this.box).find('#tabs_' + this.name + '_right').html(this.right)
         // event after
         edata.finish()
         // this.resize();
@@ -400,7 +401,7 @@ class w2tabs extends w2base {
         }
         if (!this.box) return false
         // render all buttons
-        let html =`
+        let html = `
             <div class="w2ui-tabs-line"></div>
             <div class="w2ui-scroll-wrapper w2ui-eaction" data-mousedown="resize">
                 <div id="tabs_${this.name}_right" class="w2ui-tabs-right">${this.right}</div>
@@ -427,10 +428,10 @@ class w2tabs extends w2base {
 
     initReorder(id, event) {
         if (!this.reorder) return
-        let self     = this
-        let $tab     = query(this.box).find('#tabs_' + this.name + '_tab_' + w2utils.escapeId(id))
+        let self = this
+        let $tab = query(this.box).find('#tabs_' + this.name + '_tab_' + w2utils.escapeId(id))
         let tabIndex = this.get(id, true)
-        let $ghost   = query($tab.get(0).cloneNode(true))
+        let $ghost = query($tab.get(0).cloneNode(true))
         let edata
         $ghost.attr('id', '#tabs_' + this.name + '_tab_ghost')
         this.last.moving = {
@@ -488,11 +489,11 @@ class w2tabs extends w2base {
 
     scroll(direction, instant) {
         return new Promise((resolve, reject) => {
-            let scrollBox  = query(this.box).find('.w2ui-scroll-wrapper')
+            let scrollBox = query(this.box).find('.w2ui-scroll-wrapper')
             let scrollLeft = scrollBox.get(0).scrollLeft
-            let right      = scrollBox.find('.w2ui-tabs-right').get(0)
-            let width1     = scrollBox.parent().get(0).getBoundingClientRect().width
-            let width2     = scrollLeft + parseInt(right.offsetLeft) + parseInt(right.clientWidth )
+            let right = scrollBox.find('.w2ui-tabs-right').get(0)
+            let width1 = scrollBox.parent().get(0).getBoundingClientRect().width
+            let width2 = scrollLeft + parseInt(right.offsetLeft) + parseInt(right.clientWidth)
 
             switch (direction) {
                 case 'left': {
@@ -534,9 +535,9 @@ class w2tabs extends w2base {
         if (this.box != null) {
             let box = query(this.box)
             box.find('.w2ui-scroll-left, .w2ui-scroll-right').hide()
-            let scrollBox  = box.find('.w2ui-scroll-wrapper').get(0)
-            let $right     = box.find('.w2ui-tabs-right')
-            let boxWidth   = box.get(0).getBoundingClientRect().width
+            let scrollBox = box.find('.w2ui-scroll-wrapper').get(0)
+            let $right = box.find('.w2ui-tabs-right')
+            let boxWidth = box.get(0).getBoundingClientRect().width
             let itemsWidth = ($right.length > 0 ? $right[0].offsetLeft + $right[0].clientWidth : 0)
             if (boxWidth < itemsWidth) {
                 // we have overflown content
@@ -558,7 +559,7 @@ class w2tabs extends w2base {
         let edata = this.trigger('destroy', { target: this.name })
         if (edata.isCancelled === true) return
         // clean up
-        if (query(this.box).find('#tabs_'+ this.name + '_right').length > 0) {
+        if (query(this.box).find('#tabs_' + this.name + '_right').length > 0) {
             this.unmount()
         }
         delete w2ui[this.name]
@@ -585,17 +586,17 @@ class w2tabs extends w2base {
         let edata = this.trigger('click', { target: id, tab: tab, object: tab, originalEvent: event })
         if (edata.isCancelled === true) return
         // default action
-        query(this.box).find('#tabs_'+ this.name +'_tab_'+ w2utils.escapeId(this.active)).removeClass('active')
+        query(this.box).find('#tabs_' + this.name + '_tab_' + w2utils.escapeId(this.active)).removeClass('active')
         this.active = tab.id
-        query(this.box).find('#tabs_'+ this.name +'_tab_'+ w2utils.escapeId(this.active)).addClass('active')
+        query(this.box).find('#tabs_' + this.name + '_tab_' + w2utils.escapeId(this.active)).addClass('active')
         // route processing
         if (typeof tab.route == 'string') {
-            let route = tab.route !== '' ? String('/'+ tab.route).replace(/\/{2,}/g, '/') : ''
-            let info  = w2utils.parseRoute(route)
+            let route = tab.route !== '' ? String('/' + tab.route).replace(/\/{2,}/g, '/') : ''
+            let info = w2utils.parseRoute(route)
             if (info.keys.length > 0) {
                 for (let k = 0; k < info.keys.length; k++) {
                     if (this.routeData[info.keys[k].name] == null) continue
-                    route = route.replace((new RegExp(':'+ info.keys[k].name, 'g')), this.routeData[info.keys[k].name])
+                    route = route.replace((new RegExp(':' + info.keys[k].name, 'g')), this.routeData[info.keys[k].name])
                 }
             }
             setTimeout(() => { window.location.hash = route }, 1)
@@ -620,7 +621,7 @@ class w2tabs extends w2base {
 
     animateClose(id) {
         return new Promise((resolve, reject) => {
-            let $tab  = query(this.box).find('#tabs_'+ this.name +'_tab_'+ w2utils.escapeId(id))
+            let $tab = query(this.box).find('#tabs_' + this.name + '_tab_' + w2utils.escapeId(id))
             let width = parseInt($tab.get(0).clientWidth || 0)
             let anim = `<div class="tab-animate-close" style="display: inline-block; flex-shrink: 0; width: ${width}px; transition: width 0.25s"></div>`
             let $anim = $tab.replace(anim)
@@ -636,8 +637,8 @@ class w2tabs extends w2base {
 
     animateInsert(id, tab) {
         return new Promise((resolve, reject) => {
-            let $before = query(this.box).find('#tabs_'+ this.name +'_tab_'+ w2utils.escapeId(id))
-            let $tab    = query.html(this.getTabHTML(tab.id))
+            let $before = query(this.box).find('#tabs_' + this.name + '_tab_' + w2utils.escapeId(id))
+            let $tab = query.html(this.getTabHTML(tab.id))
             if ($before.length == 0) {
                 $before = query(this.box).find('#tabs_tabs_right')
                 $before.before($tab)
@@ -646,7 +647,7 @@ class w2tabs extends w2base {
                 $tab.css({ opacity: 0 })
                 // first insert tab on the right to get its proper dimentions
                 query(this.box).find('#tabs_tabs_right').before($tab.get(0))
-                let $tmp  = query(this.box).find('#' + $tab.attr('id'))
+                let $tmp = query(this.box).find('#' + $tab.attr('id'))
                 let width = $tmp.get(0)?.clientWidth ?? 0
                 // insert animation div
                 let $anim = query.html('<div class="tab-animate-insert" style="flex-shrink: 0; width: 0; transition: width 0.25s"></div>')

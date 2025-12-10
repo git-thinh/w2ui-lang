@@ -1434,6 +1434,7 @@ class w2form extends w2base {
             field.html = w2utils.extend({ label: '', span: 6, attr: '', text: '', style: '', page: 0, column: 0 }, field.html)
             if (page == null) page = field.html.page
             if (column == null) column = field.html.column
+
             // input control
             let input = `<input id="${field.field}" name="${field.field}" class="w2ui-input ${field.html.class ?? ''}" type="text" ${field.html.attr + tabindex_str}>`
             switch (field.type) {
@@ -1574,7 +1575,7 @@ class w2form extends w2base {
                     + (collapsible != '' ? 'data-group="' + w2utils.base64encode(field.html.group) + '"' : '')
                     + (collapsible != '' ? 'data-click="toggleGroup|' + field.html.group + '"' : '')
                     + '>'
-                    + collapsible + w2utils.lang(field.html.group) + '</div>\n'
+                    + collapsible + `<span ${xlang(field.html.group)}>` + w2utils.lang(field.html.group) + '</span></div>\n'
                     + '   <div class="w2ui-group-fields" style="' + (field.html.groupStyle || '') + '">'
                 group = field.html.group
             }
@@ -1639,8 +1640,7 @@ class w2form extends w2base {
             if (pages[field.html.page] == null) pages[field.html.page] = {}
             if (pages[field.html.page][field.html.column] == null) pages[field.html.page][field.html.column] = ''
 
-            console.log(`${field.type}.${field.field} =`, html.trim().substr(0, 50));
-
+            //console.log(`${field.type}.${field.field} =`, html.trim().substr(0, 50));
             pages[field.html.page][field.html.column] += html
             page = field.html.page
             column = field.html.column
@@ -1673,7 +1673,7 @@ class w2form extends w2base {
                     info.text = a
                     if (['save', 'update', 'create'].indexOf(a.toLowerCase()) !== -1) info.class = 'w2ui-btn-blue'; else info.class = ''
                 }
-                buttons += '\n    <button name="' + a + '" class="w2ui-btn ' + info.class + '" style="' + info.style + '" tabindex="' + tabindex + '">' +
+                buttons += `\n    <button ${xlang(info.text)} name="` + a + '" class="w2ui-btn ' + info.class + '" style="' + info.style + '" tabindex="' + tabindex + '">' +
                     w2utils.lang(info.text) + '</button>'
                 tabindex++
             }

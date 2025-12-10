@@ -1468,10 +1468,10 @@ class w2field extends w2base {
 
                 //[?????]
                 //'font-size': styles['font-size'],
+                //'height': this.el.clientHeight + 'px',
 
                 'color': styles.color,
                 'font-family': styles['font-family'],
-                'height': this.el.clientHeight + 'px',
                 'padding-top': parseInt(styles['padding-top'], 10) + 1 + 'px',
                 'padding-bottom': parseInt(styles['padding-bottom'], 10) - 1 + 'px',
                 'padding-left': this.tmp['old-padding-left'],
@@ -1519,10 +1519,10 @@ class w2field extends w2base {
 
                 //[?????]
                 //'font-size': styles['font-size'],
+                //'height': this.el.clientHeight + 'px',
 
                 'color': styles.color,
                 'font-family': styles['font-family'],
-                'height': this.el.clientHeight + 'px',
                 'padding': 0,
                 'margin-top': (parseInt(styles['margin-top'], 10) + 1) + 'px',
                 'margin-bottom': 0,
@@ -1552,10 +1552,10 @@ class w2field extends w2base {
                 .css({
                     //[?????]
                     //'font-size': styles['font-size'],
+                    //'height': this.el.clientHeight + 'px',
 
                     'color': styles.color,
                     'font-family': styles['font-family'],
-                    'height': this.el.clientHeight + 'px',
                     'padding-top': styles['padding-top'],
                     'padding-bottom': styles['padding-bottom'],
                     'padding-left': 0,

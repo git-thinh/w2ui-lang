@@ -41,7 +41,7 @@
             height: 28px;
             position: relative;
             z-index: 20;
-            padding: 7px 20px 4px 20px;
+            padding: 4px 20px 7px 20px;
             text-align: center;
             color: black;
             background-color: transparent;
@@ -51,19 +51,24 @@
             border-radius: 0;
             cursor: default;
             user-select: none;
+
             &.active {
+                font-weight: bold;
                 color: #0175ff;
                 background-color: transparent;
                 border: 2px solid transparent;
                 border-bottom: 2px solid #0175ff;
                 margin-bottom: 0px;
+
                 .w2ui-tab-icon {
                     color: #0175ff;
                 }
             }
+
             &:hover {
                 background-color: #dfe1e630;
             }
+
             &.moving {
                 color: inherit;
                 background-color: #eee;
@@ -71,15 +76,18 @@
                 border-radius: 0px;
                 margin-bottom: 0px;
             }
+
             &.closable {
                 padding: 6px 28px 6px 20px;
             }
+
             .w2ui-tab-icon {
                 color: #888889;
                 margin-right: 8px;
                 display: inline-block;
                 margin-top: -1px;
             }
+
             .w2ui-tab-close {
                 position: absolute;
                 right: 3px;
@@ -94,15 +102,18 @@
                 border: 0px;
                 border-top: 3px solid transparent;
                 border-radius: 3px;
+
                 &:hover {
                     background-color: #f9e7e7;
                     color: red;
                     opacity: 1;
                     font-weight: bold;
                 }
+
                 &:active {
                     background-color: #ffd1d1;
                 }
+
                 &:before {
                     position: relative;
                     top: -2px;
@@ -121,18 +132,19 @@
             white-space: nowrap;
         }
     }
-
     // upwards tabs
     &.w2ui-tabs-up {
         .w2ui-tabs-line {
             top: 0px;
             bottom: auto;
         }
+
         .w2ui-scroll-wrapper {
             .w2ui-tab {
                 border: 2px solid transparent;
                 border-top: 2px solid transparent;
                 border-radius: 0 0 4px 4px;
+
                 &.active {
                     border: 2px solid transparent;
                     border-top: 2px solid #0175ff;
@@ -140,5 +152,5 @@
                 }
             }
         }
-   }
+    }
 }
