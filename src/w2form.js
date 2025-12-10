@@ -1491,7 +1491,7 @@ class w2form extends w2base {
                                     <input id="${field.field + i}" name="${field.field}" class="w2ui-input ${field.html.class ?? ''}" type="radio"
                                         ${(i === 0 ? tabindex_str : '')}
                                         data-value="${items[i].id}" data-index="${i}">
-                                    <span>&#160;<span ${xlang(items[i].text)}>${w2utils.lang(items[i].text)}</span></span>
+                                    <span><span ${xlang(items[i].text)}>${w2utils.lang(items[i].text)}</span></span>
                                 </label>
                             </div>`
                     }

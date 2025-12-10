@@ -384,6 +384,10 @@ class w2field extends w2base {
                 break
             }
         }
+
+        //if (this.el.hasAttribute('xplaceholder'))
+        //    this.el.setAttribute('placeholder', w2utils.lang(this.el.getAttribute('xplaceholder')))
+
         // attach events
         query(this.el)
             .css('box-sizing', 'border-box')
@@ -403,6 +407,7 @@ class w2field extends w2base {
         // this.refresh() // do not call refresh, on change will trigger refresh (for list at list)
         // format initial value
         this.change(new Event('change'))
+
     }
 
     get() {
