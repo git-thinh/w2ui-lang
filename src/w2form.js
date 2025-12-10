@@ -1575,7 +1575,8 @@ class w2form extends w2base {
                     + (collapsible != '' ? 'data-group="' + w2utils.base64encode(field.html.group) + '"' : '')
                     + (collapsible != '' ? 'data-click="toggleGroup|' + field.html.group + '"' : '')
                     + '>'
-                    + collapsible + `<span ${xlang(field.html.group)}>` + w2utils.lang(field.html.group) + '</span></div>\n'
+                    + collapsible + `<label class="xlang xf-group-label" ${xlang(field.html.group)}>` + w2utils.lang(field.html.group) + '</label></div>\n'
+                    //+ collapsible + w2utils.lang(field.html.group) + '</div>\n'
                     + '   <div class="w2ui-group-fields" style="' + (field.html.groupStyle || '') + '">'
                 group = field.html.group
             }

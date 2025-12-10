@@ -121,14 +121,14 @@ let tasks = {
             .pipe(gulp.dest(OUT_DIR))
             .on('end', () => { check() })
 
-        gulp.src(files_es6)
-            .pipe(concat('w2ui.es6.js'))
-            .pipe(replace(/^(import.*'|export.*}|module\.exports.*})$\n/gm, ''))
-            .pipe(replace('\n\n', '\n'))
-            .pipe(replace('export { w2field }', exports_es6))
-            .pipe(header(comments.w2ui))
-            .pipe(gulp.dest(OUT_DIR))
-            .on('end', () => { check() })
+        //gulp.src(files_es6)
+        //    .pipe(concat('w2ui.es6.js'))
+        //    .pipe(replace(/^(import.*'|export.*}|module\.exports.*})$\n/gm, ''))
+        //    .pipe(replace('\n\n', '\n'))
+        //    .pipe(replace('export { w2field }', exports_es6))
+        //    .pipe(header(comments.w2ui))
+        //    .pipe(gulp.dest(OUT_DIR))
+        //    .on('end', () => { check() })
 
         function check() {
             count++
@@ -159,27 +159,27 @@ let tasks = {
             })
     },
 
-    build_es6(cb) {
-        return gulp
-            .src(files_es6)
-            .pipe(concat('w2ui.es6.js'))
-            .pipe(replace(/^(import.*'|export.*}|module\.exports.*})$\n/gm, ''))
-            .pipe(replace('\n\n', '\n'))
-            .pipe(replace('export { w2field }', exports_es6))
-            .pipe(header(comments.w2ui))
-            .pipe(gulp.dest(OUT_DIR))
-            // min file
-            .pipe(uglify({
-                warnings: false,
-                sourceMap: false
-            }))
-            .pipe(rename({ suffix: '.min' }))
-            .pipe(header(comments.w2ui))
-            .pipe(gulp.dest(OUT_DIR))
-            .on('end', () => {
-                cb()
-            })
-    },
+    //build_es6(cb) {
+    //    return gulp
+    //        .src(files_es6)
+    //        .pipe(concat('w2ui.es6.js'))
+    //        .pipe(replace(/^(import.*'|export.*}|module\.exports.*})$\n/gm, ''))
+    //        .pipe(replace('\n\n', '\n'))
+    //        .pipe(replace('export { w2field }', exports_es6))
+    //        .pipe(header(comments.w2ui))
+    //        .pipe(gulp.dest(OUT_DIR))
+    //        // min file
+    //        .pipe(uglify({
+    //            warnings: false,
+    //            sourceMap: false
+    //        }))
+    //        .pipe(rename({ suffix: '.min' }))
+    //        .pipe(header(comments.w2ui))
+    //        .pipe(gulp.dest(OUT_DIR))
+    //        .on('end', () => {
+    //            cb()
+    //        })
+    //},
 
     icons(cb) {
         let fs  = require('fs')
@@ -321,8 +321,12 @@ let tasks = {
     },
 }
 
-exports.default = gulp.series(tasks.clean, tasks.less, tasks.build_es6, tasks.build)
-exports.build   = gulp.series(tasks.build_es6, tasks.build)
+//exports.default = gulp.series(tasks.clean, tasks.less, tasks.build_es6, tasks.build)
+//exports.build = gulp.series(tasks.build_es6, tasks.build)
+
+exports.default = gulp.series(tasks.clean, tasks.less,  tasks.build)
+exports.build = gulp.series(tasks.build)
+
 exports.dev     = tasks.watch
 exports.clean   = tasks.clean
 exports.pack    = tasks.pack
