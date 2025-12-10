@@ -3,9 +3,7 @@
 */
 
 .w2ui-toolbar {
-    background-color: #f5f5f5;
     user-select: none;
-    padding: 2px;
 
     .w2ui-tb-line {
         overflow: hidden;
@@ -43,18 +41,21 @@
         .w2ui-tb-button {
             position: relative;
             z-index: 20;
-            height: 30px;
             min-width: 30px;
-            padding: 2px;
-            border: 1px solid transparent;
-            border-radius: 4px;
-            color: black;
-            background-color: transparent;
+
+            /*padding: 1px 5px 2px;
+            border: 1px solid transparent; 
+            border-radius: 4px;*/
+
+            /* color: #000; */
+            /* background-color: transparent; */
             white-space: nowrap;
-            margin: 0 1px;
+            margin: 0;
             cursor: default;
             user-select: none;
             flex-shrink: 0;
+            /* min-width: 88px; */
+            text-align: center;
             // border: 1px solid silver;
 
             .w2ui-tb-icon {
@@ -62,13 +63,14 @@
                 width: 22px;
                 margin: 4px 0 0 1px;
                 text-align: center;
-                > span {
+
+                >span {
                     color: #8D99A7;
                 }
             }
+
             .w2ui-tb-text {
-                margin-left: 20px;
-                padding: 6px 5px 0 5px;
+                margin-left: 2px;
 
                 .w2ui-tb-color-box {
                     display: inline-block;
@@ -82,7 +84,8 @@
 
                 .w2ui-tb-count {
                     padding: 0 0 0 4px;
-                    > span {
+
+                    >span {
                         border: @menu-node-count-border;
                         border-radius: 11px;
                         width: auto;
@@ -98,7 +101,8 @@
                 .w2ui-tb-down {
                     width: 10px;
                     float: right;
-                    > span {
+
+                    >span {
                         display: inline-block;
                         position: relative;
                         top: 3px;
@@ -111,7 +115,7 @@
 
             &.over {
                 border: 1px solid transparent;
-                background-color: #eaeaed;
+
                 & .w2ui-tb-text {
                     color: black;
                 }
@@ -120,6 +124,7 @@
             &.checked {
                 border: 1px solid #d2d2d2;
                 background-color: white;
+
                 & .w2ui-tb-text {
                     color: black;
                 }
@@ -127,7 +132,7 @@
 
             &.down {
                 border: 1px solid #ccc;
-                background-color: #eaeaed;
+
                 & .w2ui-tb-text {
                     color: #666;
                 }
@@ -150,7 +155,7 @@
             height: 24px;
             padding: 0;
             margin: 3px 6px;
-       }
+        }
 
         .w2ui-tb-html {
             white-space: nowrap;
@@ -158,26 +163,32 @@
 
         .w2ui-tb-input {
             padding: 1px;
+
             .w2ui-input-label {
                 color: #474a51;
             }
+
             // such long selector is needed so that it would take priority over what's in .w2ui-reset and wouldn't require !important
             input:not([type=button]):not([type=submit]):not([type=checkbox]):not([type=radio]):not([type=range]) {
                 width: 100px;
                 height: 26px;
                 padding: 5px;
+
                 &:focus {
                     outline-color: #549eff;
                 }
+
                 &.w2ui-has-spinner {
                     width: 95px;
                     padding: 5px 30px;
                 }
             }
+
             input[type=range] {
                 position: relative;
                 top: 5px;
             }
+
             .w2ui-spinner-dec,
             .w2ui-spinner-inc {
                 position: absolute;
@@ -188,20 +199,24 @@
                 height: 22px;
                 text-align: center;
                 color: #888;
+
                 &:hover {
                     background-color: #e4e4e4;
                     color: #222;
                 }
+
                 &:active {
                     background-color: #d4d4d4;
                     color: #000;
                 }
             }
+
             .w2ui-spinner-dec {
                 border-right: 1px solid #e0e0e0;
                 border-top-left-radius: 3px;
                 border-bottom-left-radius: 3px;
             }
+
             .w2ui-spinner-inc {
                 margin-left: -24px;
                 border-left: 1px solid #e0e0e0;
@@ -210,8 +225,8 @@
             }
         }
 
-       .w2ui-tb-spacer {
+        .w2ui-tb-spacer {
             width: 100%;
-       }
+        }
     }
 }
