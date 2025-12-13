@@ -1446,7 +1446,7 @@ class w2form extends w2base {
                     input = `
                         <label class="w2ui-box-label">
                             <input id="${field.field}" name="${field.field}" class="w2ui-input ${field.html.class ?? ''}" type="checkbox" ${field.html.attr + tabindex_str}>
-                            <span ${xlang(field.html.label)}>${field.html.label}</span>
+                            <span ${field.html.labelAttr || ''} ${xlang(field.html.label)}>${field.html.label}</span>
                         </label>`
                     break
                 }
@@ -1467,7 +1467,7 @@ class w2form extends w2base {
                                 <label class="w2ui-box-label">
                                     <input id="${field.field + i}" name="${field.field}" class="w2ui-input ${field.html.class ?? ''}" type="checkbox"
                                         ${tabindex_str} data-value="${items[i].id}" data-index="${i}">
-                                    <span>&#160;<span ${xlang(items[i].text)}>${w2utils.lang(items[i].text)}</span></span>
+                                    <span ${field.html.labelAttr || ''}><span ${xlang(items[i].text)}>${w2utils.lang(items[i].text)}</span></span>
                                 </label>
                             </div>`
                     }
@@ -1491,7 +1491,7 @@ class w2form extends w2base {
                                     <input id="${field.field + i}" name="${field.field}" class="w2ui-input ${field.html.class ?? ''}" type="radio"
                                         ${(i === 0 ? tabindex_str : '')}
                                         data-value="${items[i].id}" data-index="${i}">
-                                    <span><span ${xlang(items[i].text)}>${w2utils.lang(items[i].text)}</span></span>
+                                    <span ${field.html.labelAttr || ''}><span ${xlang(items[i].text)}>${w2utils.lang(items[i].text)}</span></span>
                                 </label>
                             </div>`
                     }
@@ -1592,7 +1592,7 @@ class w2form extends w2base {
                 let span = (field.html.span != null ? 'w2ui-span' + field.html.span : '')
                 if (field.html.span == -1) span = 'w2ui-span-none'
                 let label = `
-                    <label ${span == 'none' ? ' style="display: none"' : ''} ${xlang(field.type != 'checkbox' ? field.html.label : field.html.text)}>
+                    <label ${field.html.labelAttr || ''} ${span == 'none' ? ' style="display: none"' : ''} ${xlang(field.type != 'checkbox' ? field.html.label : field.html.text)}>
                         ${w2utils.lang(field.type != 'checkbox' ? field.html.label : field.html.text)}
                     </label>`
                 if (!field.html.label) label = ''
@@ -1610,7 +1610,7 @@ class w2form extends w2base {
                     w2utils.lang(field.type != 'checkbox' ? field.html.text : '') + `</span>`
                 if (field.html.span == -1) {
                     const xl = xlang(field.type != 'checkbox' ? field.html.label : field.html.text);
-                    label = `<span class="xk-span" style="position: absolute"><span class="xk-label w2ui-inline-label w2ui-anchor-span-none" ${xl}> ${label} </span></span>`
+                    label = `<span class="xk-label xk-span" style="position: absolute"><span class="xk-label w2ui-inline-label w2ui-anchor-span-none" ${xl}> ${label} </span></span>`
                 } else {
                     const xl = xlang(field.type != 'checkbox' ? field.html.label : field.html.text);
                     label = `<span class="xk-label w2ui-inline-label" ${xl}> ${label} </span>`
@@ -1624,7 +1624,7 @@ class w2form extends w2base {
                 let span = (field.html.span != null ? 'w2ui-span' + field.html.span : '')
                 if (field.html.span == -1) span = 'w2ui-span-none'
                 let label = `
-                    <label class="xk-label" ${span == 'none' ? ' style="display: none"' : ''} ${xlang(field.type != 'checkbox' ? field.html.label : field.html.text)}>
+                    <label ${field.html.labelAttr || ''} class="xk-label" ${span == 'none' ? ' style="display: none"' : ''} ${xlang(field.type != 'checkbox' ? field.html.label : field.html.text)}>
                         ${w2utils.lang(field.type != 'checkbox' ? field.html.label : field.html.text)}
                     </label>`
                 if (!field.html.label) label = ''

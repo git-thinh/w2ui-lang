@@ -19,42 +19,43 @@
 import { w2base } from './w2base.js'
 import { w2utils } from './w2utils.js'
 import { query } from './query.js'
+import { xlang } from './_lang.js'
 
 class Tooltip {
     // no need to extend w2base, as each individual tooltip extends it
     static active = {} // all defined tooltips
     constructor() {
         this.defaults = {
-            name            : null,     // name for the overlay, otherwise input id is used
-            html            : '',       // text or html
-            style           : '',       // additional style for the overlay
-            class           : '',       // add class for w2ui-tooltip-body
-            position        : 'top|bottom',   // can be left, right, top, bottom
-            draggable       : false,    // if true, then tooltip can be move with mouse
-            align           : '',       // can be: both, both:XX left, right, both, top, bottom
-            anchor          : null,     // element it is attached to, if anchor is body, then it is context menu
-            contextMenu     : false,    // if true, then it is context menu
-            anchorClass     : '',       // add class for anchor when tooltip is shown
-            anchorStyle     : '',       // add style for anchor when tooltip is shown
-            autoShow        : false,    // if autoShow true, then tooltip will show on mouseEnter and hide on mouseLeave
-            autoShowOn      : null,     // when options.autoShow = true, mouse event to show on
-            autoHideOn      : null,     // when options.autoShow = true, mouse event to hide on
-            arrowSize       : 8,        // size of the carret
-            screenMargin    : 2,        // min margin from screen to tooltip
-            autoResize      : true,     // auto resize based on content size and available size
-            margin          : 1,        // distance from the anchor
-            offsetX         : 0,        // delta for left coordinate
-            offsetY         : 0,        // delta for top coordinate
-            maxWidth        : null,     // max width
-            maxHeight       : null,     // max height
-            watchScroll     : null,     // attach to onScroll event // TODO:
-            watchResize     : null,     // attach to onResize event // TODO:
-            hideOn          : null,     // events when to hide tooltip, ['click', 'change', 'key', 'focus', 'blur'],
-            onThen          : null,     // called when displayed
-            onShow          : null,     // callBack when shown
-            onHide          : null,     // callBack when hidden
-            onUpdate        : null,     // callback when tooltip gets updated
-            onMove          : null      // callback when tooltip is moved
+            name: null,     // name for the overlay, otherwise input id is used
+            html: '',       // text or html
+            style: '',       // additional style for the overlay
+            class: '',       // add class for w2ui-tooltip-body
+            position: 'top|bottom',   // can be left, right, top, bottom
+            draggable: false,    // if true, then tooltip can be move with mouse
+            align: '',       // can be: both, both:XX left, right, both, top, bottom
+            anchor: null,     // element it is attached to, if anchor is body, then it is context menu
+            contextMenu: false,    // if true, then it is context menu
+            anchorClass: '',       // add class for anchor when tooltip is shown
+            anchorStyle: '',       // add style for anchor when tooltip is shown
+            autoShow: false,    // if autoShow true, then tooltip will show on mouseEnter and hide on mouseLeave
+            autoShowOn: null,     // when options.autoShow = true, mouse event to show on
+            autoHideOn: null,     // when options.autoShow = true, mouse event to hide on
+            arrowSize: 8,        // size of the carret
+            screenMargin: 2,        // min margin from screen to tooltip
+            autoResize: true,     // auto resize based on content size and available size
+            margin: 1,        // distance from the anchor
+            offsetX: 0,        // delta for left coordinate
+            offsetY: 0,        // delta for top coordinate
+            maxWidth: null,     // max width
+            maxHeight: null,     // max height
+            watchScroll: null,     // attach to onScroll event // TODO:
+            watchResize: null,     // attach to onResize event // TODO:
+            hideOn: null,     // events when to hide tooltip, ['click', 'change', 'key', 'focus', 'blur'],
+            onThen: null,     // called when displayed
+            onShow: null,     // callBack when shown
+            onHide: null,     // callBack when hidden
+            onUpdate: null,     // callback when tooltip gets updated
+            onMove: null      // callback when tooltip is moved
         }
     }
 
@@ -135,6 +136,9 @@ class Tooltip {
         }
         // clean name as it is used as id and css selector
         name = name.replace(/[\s\.#]/g, '_')
+
+
+
         if (Tooltip.active[name]) {
             overlay = Tooltip.active[name]
             overlay.prevOptions = overlay.options
@@ -142,7 +146,7 @@ class Tooltip {
             // overlay.options = w2utils.extend({}, overlay.options, options)
             overlay.anchor = anchor // as HTML elements are not copied
             if (overlay.prevOptions.html != overlay.options.html || overlay.prevOptions.class != overlay.options.class
-                    || overlay.prevOptions.style != overlay.options.style) {
+                || overlay.prevOptions.style != overlay.options.style) {
                 overlay.needsUpdate = true
             }
             options = overlay.options // it was recreated
@@ -302,9 +306,9 @@ class Tooltip {
         // enforce nowrap only when align=both and vertical
         let overlayStyles = (options.align == 'both' && isVertical ? '' : 'white-space: nowrap;')
         if (options.maxWidth && w2utils.getStrWidth(options.html, '') > options.maxWidth) {
-            overlayStyles = 'width: '+ options.maxWidth + 'px; white-space: inherit; overflow: auto;'
+            overlayStyles = 'width: ' + options.maxWidth + 'px; white-space: inherit; overflow: auto;'
         }
-        overlayStyles += ' max-height: '+ (options.maxHeight ? options.maxHeight : window.innerHeight - 4) + 'px;'
+        overlayStyles += ' max-height: ' + (options.maxHeight ? options.maxHeight : window.innerHeight - 4) + 'px;'
         // if empty content - then hide it
         if (options.html === '' || options.html == null) {
             self.hide(name)
@@ -381,11 +385,18 @@ class Tooltip {
         overlay.tmp.observeAnchorMove.observe(overlay.anchor, { attributes: true })
         // observer element removal from DOM
         Tooltip.observeRemove.observe(document.body, { subtree: true, childList: true })
+
+        //[?????]
         // then insert html and it will adjust
+        let xlt = xlang(options.html)
+        if (xlt) xlt = `<span ${xlt}>${w2utils.lang(options.html)}</span>`
+        else xlt = options.html;
         query(overlay.box)
             .css('opacity', 1)
             .find('.w2ui-overlay-body')
-            .html(options.html)
+            //.html(options.html);
+            .html(xlt);
+
         /**
          * pointer-events: none is needed to avoid cases when popup is shown right under the cursor
          * or it will trigger onmouseout, onmouseleave and other events.
@@ -555,18 +566,18 @@ class Tooltip {
         query(overlay.box)
             .css({
                 left: pos.left + 'px',
-                top : pos.top + 'px'
+                top: pos.top + 'px'
             })
             .then(query => {
                 if (pos.width != null) {
                     query.css('width', pos.width + 'px')
-                         .find('.w2ui-overlay-body')
-                         .css('width', '100%')
+                        .find('.w2ui-overlay-body')
+                        .css('width', '100%')
                 }
                 if (pos.height != null) {
                     query.css('height', pos.height + 'px')
-                         .find('.w2ui-overlay-body')
-                         .css('height', '100%')
+                        .find('.w2ui-overlay-body')
+                        .css('height', '100%')
                 }
             })
             .find('.w2ui-overlay-body')
@@ -616,8 +627,8 @@ class Tooltip {
             while (evt?.originalEvent) { evt = evt.originalEvent }
             let { x, y, width, height } = evt ?? { x: options.x, y: options.y, width: 0, height: 10 }
             anchor = {
-                left: x - (options.contextMenu ? 4: 0),
-                top: y - (options.contextMenu ? 4: 0),
+                left: x - (options.contextMenu ? 4 : 0),
+                top: y - (options.contextMenu ? 4 : 0),
                 width: width ?? 0,
                 height: height ?? 10,
                 arrow: options.contextMenu ? 'none' : null
@@ -644,13 +655,13 @@ class Tooltip {
             class: '',
             style: `#${overlay.id} { --tip-size: ${arrowSize}px; }`
         }
-        let adjust   = { left: 0, top: 0 }
-        let bestFit  = { posX: '', x: 0, posY: '', y: 0 }
+        let adjust = { left: 0, top: 0 }
+        let bestFit = { posX: '', x: 0, posY: '', y: 0 }
 
         // find best position
         position.forEach(pos => {
             if (['top', 'bottom'].includes(pos)) {
-                if (!found && (content.height + arrowSize/1.893) < available[pos]) { // 1.893 = 1 + sin(90)
+                if (!found && (content.height + arrowSize / 1.893) < available[pos]) { // 1.893 = 1 + sin(90)
                     found = pos
                 }
                 if (available[pos] > bestFit.y) {
@@ -658,7 +669,7 @@ class Tooltip {
                 }
             }
             if (['left', 'right'].includes(pos)) {
-                if (!found && (content.width + arrowSize/1.893) < available[pos]) { // 1.893 = 1 + sin(90)
+                if (!found && (content.width + arrowSize / 1.893) < available[pos]) { // 1.893 = 1 + sin(90)
                     found = pos
                 }
                 if (available[pos] > bestFit.x) {
@@ -781,9 +792,9 @@ class Tooltip {
             }
             // if off screen then adjust
             let minLeft = (found == 'right' ? arrowSize : options.screenMargin)
-            let minTop  = (found == 'bottom' ? arrowSize : options.screenMargin)
+            let minTop = (found == 'bottom' ? arrowSize : options.screenMargin)
             let maxLeft = max.width - (width ?? content.width) - (found == 'left' ? arrowSize : options.screenMargin)
-            let maxTop  = max.height - (height ?? content.height) - (found == 'top' ? arrowSize : options.screenMargin) + 3
+            let maxTop = max.height - (height ?? content.height) - (found == 'top' ? arrowSize : options.screenMargin) + 3
             // adjust X
             if (['top', 'bottom'].includes(found) || options.autoResize) {
                 if (left < minLeft) {
@@ -881,18 +892,18 @@ class ColorTooltip extends Tooltip {
             ['99050C', 'B45F17', '80650E', '737103', '395E14', '10783D', '13615E', '094785', '0A5394', '351C75', '780172', '782C5A']
         ]
         this.defaults = w2utils.extend({}, this.defaults, {
-            advanced    : false,
-            transparent : true,
-            position    : 'top|bottom',
-            class       : 'w2ui-white',
-            color       : '',
-            updateInput : true,
-            arrowSize   : 12,
-            autoResize  : false,
-            anchorClass : 'w2ui-focus',
-            autoShowOn  : 'focus',
-            hideOn      : ['doc-click', 'focus-change'],
-            onSelect    : null,
+            advanced: false,
+            transparent: true,
+            position: 'top|bottom',
+            class: 'w2ui-white',
+            color: '',
+            updateInput: true,
+            arrowSize: 12,
+            autoResize: false,
+            anchorClass: 'w2ui-focus',
+            autoShowOn: 'focus',
+            hideOn: ['doc-click', 'focus-change'],
+            onSelect: null,
             onLiveUpdate: null
         })
     }
@@ -922,7 +933,7 @@ class ColorTooltip extends Tooltip {
             this.palette[0].pop()
         }
         if (options.color) options.color = String(options.color).toUpperCase()
-        if (typeof options.color === 'string' && options.color.substr(0,1) === '#') options.color = options.color.substr(1)
+        if (typeof options.color === 'string' && options.color.substr(0, 1) === '#') options.color = options.color.substr(1)
         // needed for keyboard navigation
         this.index = [-1, -1]
         let ret = super.attach(options)
@@ -930,7 +941,7 @@ class ColorTooltip extends Tooltip {
         overlay.options.html = this.getColorHTML(overlay.name, options)
         overlay.on('show.attach', event => {
             let overlay = event.detail.overlay
-            let anchor  = overlay.anchor
+            let anchor = overlay.anchor
             let options = overlay.options
             if (['INPUT', 'TEXTAREA'].includes(anchor.tagName) && !options.color && anchor.value) {
                 overlay.tmp.initColor = anchor.value
@@ -953,8 +964,8 @@ class ColorTooltip extends Tooltip {
         })
         overlay.on('hide.attach', event => {
             let overlay = event.detail.overlay
-            let anchor  = overlay.anchor
-            let color   = overlay.newColor ?? overlay.options.color ?? ''
+            let anchor = overlay.anchor
+            let color = overlay.newColor ?? overlay.options.color ?? ''
             // color has been selected
             if (color !== '') {
                 if (['INPUT', 'TEXTAREA'].includes(anchor.tagName) && anchor.value != color && overlay.options.updateInput) {
@@ -1039,7 +1050,7 @@ class ColorTooltip extends Tooltip {
             .find('.w2ui-tab-content')
             .hide()
             .closest('.w2ui-colors')
-            .find('.tab-'+ index)
+            .find('.tab-' + index)
             .show()
     }
 
@@ -1188,7 +1199,7 @@ class ColorTooltip extends Tooltip {
                     el.val(0)
                     val = 0
                 }
-                let name  = el.attr('name')
+                let name = el.attr('name')
                 let color = {}
                 if (['r', 'g', 'b', 'a'].indexOf(name) !== -1) {
                     rgb[name] = val
@@ -1213,7 +1224,7 @@ class ColorTooltip extends Tooltip {
 
         // color sliders events
         let mDown = `${!w2utils.isMobile ? 'mousedown' : 'touchstart'}.w2color`
-        let mUp   = `${!w2utils.isMobile ? 'mouseup' : 'touchend'}.w2color`
+        let mUp = `${!w2utils.isMobile ? 'mouseup' : 'touchend'}.w2color`
         let mMove = `${!w2utils.isMobile ? 'mousemove' : 'touchmove'}.w2color`
         query(overlay.box).find('.palette, .rainbow, .alpha')
             .off('.w2color')
@@ -1228,12 +1239,12 @@ class ColorTooltip extends Tooltip {
             if (color.v != null) hsv.v = color.v
             if (color.a != null) { rgb.a = color.a; hsv.a = color.a }
             rgb = w2utils.hsv2rgb(hsv)
-            let rgba = 'rgba('+ rgb.r +','+ rgb.g +','+ rgb.b +','+ rgb.a +')'
+            let rgba = 'rgba(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ',' + rgb.a + ')'
             let cl = [
                 Number(rgb.r).toString(16).toUpperCase(),
                 Number(rgb.g).toString(16).toUpperCase(),
                 Number(rgb.b).toString(16).toUpperCase(),
-                (Math.round(Number(rgb.a)*255)).toString(16).toUpperCase()
+                (Math.round(Number(rgb.a) * 255)).toString(16).toUpperCase()
             ]
             cl.forEach((item, ind) => { if (item.length === 1) cl[ind] = '0' + item })
             let newColor = cl[0] + cl[1] + cl[2] + cl[3]
@@ -1283,12 +1294,12 @@ class ColorTooltip extends Tooltip {
                 'left': (hsv.s * 150 / 100 - offset1) + 'px',
                 'top': ((100 - hsv.v) * 125 / 100 - offset1) + 'px'
             })
-            el2.css('left', (hsv.h/(360/150) - offset2) + 'px')
-            el3.css('left', (rgb.a*150 - offset2) + 'px')
+            el2.css('left', (hsv.h / (360 / 150) - offset2) + 'px')
+            el3.css('left', (rgb.a * 150 - offset2) + 'px')
         }
 
         function refreshPalette() {
-            let cl  = w2utils.hsv2rgb(hsv.h, 100, 100)
+            let cl = w2utils.hsv2rgb(hsv.h, 100, 100)
             let rgb = `${cl.r},${cl.g},${cl.b}`
             query(overlay.box).find('.palette')
                 .css('background-image', `linear-gradient(90deg, rgba(${rgb},0) 0%, rgba(${rgb},1) 100%)`)
@@ -1320,23 +1331,23 @@ class ColorTooltip extends Tooltip {
         }
 
         function mouseMove(event) {
-            let el    = initial.el
-            let divX   = event.pageX - initial.x
-            let divY   = event.pageY - initial.y
-            let newX   = initial.left + divX
-            let newY   = initial.top + divY
+            let el = initial.el
+            let divX = event.pageX - initial.x
+            let divY = event.pageY - initial.y
+            let newX = initial.left + divX
+            let newY = initial.top + divY
             let offset = parseInt(el.prop('clientWidth')) / 2
             if (newX < -offset) newX = -offset
             if (newY < -offset) newY = -offset
             if (newX > initial.width - offset) newX = initial.width - offset
             if (newY > initial.height - offset) newY = initial.height - offset
-            if (el.hasClass('move-x')) el.css({ left : newX + 'px' })
-            if (el.hasClass('move-y')) el.css({ top : newY + 'px' })
+            if (el.hasClass('move-x')) el.css({ left: newX + 'px' })
+            if (el.hasClass('move-y')) el.css({ top: newY + 'px' })
 
             // move
             let name = query(el.get(0).parentNode).attr('name')
-            let x    = parseInt(el.css('left')) + offset
-            let y    = parseInt(el.css('top')) + offset
+            let x = parseInt(el.css('left')) + offset
+            let y = parseInt(el.css('top')) + offset
             if (name === 'palette') {
                 setColor({
                     s: Math.round(x / initial.width * 100),
@@ -1431,31 +1442,31 @@ class MenuTooltip extends Tooltip {
         //   ...
         // }
         this.defaults = w2utils.extend({}, this.defaults, {
-            type        : 'normal',    // can be normal, radio, check
-            items       : [],
-            selected    : null,        // current selected
-            render      : null,
-            spinner     : false,
-            msgNoItems  : w2utils.lang('No items found'),
-            topHTML     : '',
-            menuStyle   : '',
-            search      : false,        // search input inside tooltip
-            filter      : false,        // will apply filter, if anchor is INPUT or TEXTAREA
-            match       : 'contains',   // is, begins, ends, contains
-            markSearch  : false,
-            prefilter   : false,
-            altRows     : false,
-            arrowSize   : 10,
-            align       : 'left',
-            position    : 'bottom|top',
-            class       : 'w2ui-white',
-            anchorClass : 'w2ui-focus',
-            autoShowOn  : 'focus',
-            hideOn      : ['doc-click', 'focus-change', 'select'], // also can 'item-remove'
-            onSelect    : null,
-            onSubMenu   : null,
-            onRemove    : null,
-            onTooltip   : null,
+            type: 'normal',    // can be normal, radio, check
+            items: [],
+            selected: null,        // current selected
+            render: null,
+            spinner: false,
+            msgNoItems: w2utils.lang('No items found'),
+            topHTML: '',
+            menuStyle: '',
+            search: false,        // search input inside tooltip
+            filter: false,        // will apply filter, if anchor is INPUT or TEXTAREA
+            match: 'contains',   // is, begins, ends, contains
+            markSearch: false,
+            prefilter: false,
+            altRows: false,
+            arrowSize: 10,
+            align: 'left',
+            position: 'bottom|top',
+            class: 'w2ui-white',
+            anchorClass: 'w2ui-focus',
+            autoShowOn: 'focus',
+            hideOn: ['doc-click', 'focus-change', 'select'], // also can 'item-remove'
+            onSelect: null,
+            onSubMenu: null,
+            onRemove: null,
+            onTooltip: null,
             onMouseEnter: null,
             onMouseLeave: null
         })
@@ -1552,12 +1563,12 @@ class MenuTooltip extends Tooltip {
         overlay.prev = () => {
             let chain = this.getActiveChain(overlay.name)
             if (overlay.selected == null || overlay.selected?.length == 0) {
-                overlay.selected = chain[chain.length-1]
+                overlay.selected = chain[chain.length - 1]
             } else {
                 let ind = chain.indexOf(String(overlay.selected)) // if nested menu, selected will be "2-2"
                 // selected not in chain of items
                 if (ind == -1) {
-                    overlay.selected = chain[chain.length-1]
+                    overlay.selected = chain[chain.length - 1]
                 }
                 // not first item
                 if (ind > 0) {
@@ -1775,7 +1786,7 @@ class MenuTooltip extends Tooltip {
                 if (mitem.checked === true) icon = 'w2ui-icon-check'; else icon = 'w2ui-icon-empty'
             }
             if (mitem.hidden !== true) {
-                let txt  = mitem.text
+                let txt = mitem.text
                 let icon_dsp = ''
                 if (typeof options.render === 'function') txt = options.render(mitem, options)
                 if (typeof txt == 'function') txt = txt(mitem, options)
@@ -1827,7 +1838,7 @@ class MenuTooltip extends Tooltip {
                 } else {
                     // horizontal line
                     let divText = (txt ?? '').replace(/^-+/g, '')
-                    menu_html  += `
+                    menu_html += `
                         <div index="${index}" class="w2ui-menu-divider ${divText != '' ? 'has-text' : ''}">
                             <div class="line"></div>
                             ${divText ? `<div class="text">${divText}</div>` : ''}
@@ -1886,9 +1897,9 @@ class MenuTooltip extends Tooltip {
             position: 'right|left',
             hideOn: ['doc-click', 'select']
         })
-        .hide(evt => {
-            query(event.target).removeClass('expanded')
-        })
+            .hide(evt => {
+                query(event.target).removeClass('expanded')
+            })
         // indicates if user cursor is over sub menu
         setTimeout(() => {
             query('#w2overlay-' + overlay.name + '-submenu')
@@ -2137,7 +2148,7 @@ class MenuTooltip extends Tooltip {
                 } else {
                     item.hidden = true
                 }
-            } catch (e) {}
+            } catch (e) { }
             // do not show selected items
             if (options.hideSelected && selectedIds.includes(item.id)) {
                 item.hidden = true
@@ -2170,8 +2181,7 @@ class MenuTooltip extends Tooltip {
         if ((options.items.length === 0 && remote.cached !== 0)
             || (remote.cached == options.cacheMax && search.length > remote.search.length)
             || (search.length >= remote.search.length && search.substr(0, remote.search.length) !== remote.search)
-            || (search.length < remote.search.length))
-        {
+            || (search.length < remote.search.length)) {
             // Aabort previous request if any
             if (remote.controller) {
                 remote.controller.abort()
@@ -2317,9 +2327,9 @@ class MenuTooltip extends Tooltip {
 
     menuDown(overlay, event, index, parents) {
         let options = overlay.options
-        let items   = options.items
-        let icon    = query(event.delegate).find('.w2ui-icon')
-        let menu    = query(event.target).closest('.w2ui-menu:not(.w2ui-sub-menu)')
+        let items = options.items
+        let icon = query(event.delegate).find('.w2ui-icon')
+        let menu = query(event.target).closest('.w2ui-menu:not(.w2ui-sub-menu)')
         if (typeof parents == 'string' && parents !== '') {
             let ids = parents.split('-')
             ids.forEach(id => {
@@ -2349,9 +2359,9 @@ class MenuTooltip extends Tooltip {
             })
         }
         if ((options.type === 'check' || options.type === 'radio') && item.group !== false
-                    && !query(event.target).hasClass('menu-remove')
-                    && !query(event.target).hasClass('menu-help')
-                    && !query(event.target).closest('.w2ui-menu-item').hasClass('has-sub-menu')) {
+            && !query(event.target).hasClass('menu-remove')
+            && !query(event.target).hasClass('menu-help')
+            && !query(event.target).closest('.w2ui-menu-item').hasClass('has-sub-menu')) {
             item.checked = options.type == 'radio' ? true : !item.checked
             if (item.checked) {
                 if (options.type === 'radio') {
@@ -2378,9 +2388,9 @@ class MenuTooltip extends Tooltip {
     }
 
     menuClick(overlay, event, index, parents) {
-        let options  = overlay.options
-        let items    = options.items
-        let $item    = query(event.delegate).closest('.w2ui-menu-item')
+        let options = overlay.options
+        let items = options.items
+        let $item = query(event.delegate).closest('.w2ui-menu-item')
         let keepOpen = options.hideOn.includes('select') ? false : true
         if (event.shiftKey || event.metaKey || event.ctrlKey) {
             keepOpen = true
@@ -2428,7 +2438,7 @@ class MenuTooltip extends Tooltip {
                 let tmp = items.splice(ind, 1)
                 // delete from the parent too
                 if (overlay.options.parents) {
-                    let pind = overlay.options.parents[overlay.options.parents.length -1]
+                    let pind = overlay.options.parents[overlay.options.parents.length - 1]
                     let pitems = parentOverlay.options.items[pind].items
                     if (pitems[ind].id == tmp[0].id) {
                         pitems.splice(ind, 1)
@@ -2455,7 +2465,7 @@ class MenuTooltip extends Tooltip {
             // find items that are selected
             let selected = this.findChecked(options.items)
             let a_index = $item.attr('index')
-            overlay.selected = isNaN(a_index) ? a_index: parseInt(a_index)
+            overlay.selected = isNaN(a_index) ? a_index : parseInt(a_index)
             edata = topOverlay.trigger('select', {
                 originalEvent: event, target: overlay.name, overlay, topOverlay, parentOverlay,
                 item, index, selected, keepOpen, el: $item[0]
@@ -2533,8 +2543,8 @@ class MenuTooltip extends Tooltip {
                 let { item, index, parents } = this.getCurrent(overlay.name)
                 // collapse parent if any
                 if (parents) {
-                    item    = options.items[parents]
-                    index   = parseInt(parents)
+                    item = options.items[parents]
+                    index = parseInt(parents)
                     parents = ''
                     refreshIndex = true
                 }
@@ -2577,7 +2587,7 @@ class MenuTooltip extends Tooltip {
         }
         // filter
         if (filter && overlay.displayed
-                && ((options.filter && event._searchType == 'filter') || (options.search && event._searchType == 'search'))) {
+            && ((options.filter && event._searchType == 'filter') || (options.search && event._searchType == 'search'))) {
             this.applyFilter(overlay.name, null, search, true)
                 .then(data => {
                     overlay.tmp.searchCount = data.count
@@ -2602,23 +2612,23 @@ class DateTooltip extends Tooltip {
         this.daysCount = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
         this.today = td.getFullYear() + '/' + (Number(td.getMonth()) + 1) + '/' + td.getDate()
         this.defaults = w2utils.extend({}, this.defaults, {
-            position      : 'top|bottom',
-            class         : 'w2ui-calendar',
-            type          : 'date', // can be date/time/datetime
-            value         : '', // initial date (in w2utils.settings format)
-            format        : '',
-            start         : null,
-            end           : null,
-            btnNow        : false,
-            blockDates    : [], // array of blocked dates
-            blockWeekdays : [], // blocked weekdays 0 - sunday, 1 - monday, etc
-            colored       : {}, // ex: { '3/13/2022': 'bg-color|text-color' }
-            arrowSize     : 12,
-            autoResize    : false,
-            anchorClass   : 'w2ui-focus',
-            autoShowOn    : 'focus',
-            hideOn        : ['doc-click', 'focus-change'],
-            onSelect      : null
+            position: 'top|bottom',
+            class: 'w2ui-calendar',
+            type: 'date', // can be date/time/datetime
+            value: '', // initial date (in w2utils.settings format)
+            format: '',
+            start: null,
+            end: null,
+            btnNow: false,
+            blockDates: [], // array of blocked dates
+            blockWeekdays: [], // blocked weekdays 0 - sunday, 1 - monday, etc
+            colored: {}, // ex: { '3/13/2022': 'bg-color|text-color' }
+            arrowSize: 12,
+            autoResize: false,
+            anchorClass: 'w2ui-focus',
+            autoShowOn: 'focus',
+            hideOn: ['doc-click', 'focus-change'],
+            onSelect: null
         })
     }
 
@@ -2655,7 +2665,7 @@ class DateTooltip extends Tooltip {
         Object.assign(overlay.tmp, cal)
         overlay.on('show.attach', event => {
             let overlay = event.detail.overlay
-            let anchor  = overlay.anchor
+            let anchor = overlay.anchor
             let options = overlay.options
             if (['INPUT', 'TEXTAREA'].includes(anchor.tagName) && !options.value && anchor.value) {
                 overlay.tmp.initValue = anchor.value
@@ -2675,7 +2685,7 @@ class DateTooltip extends Tooltip {
         })
         overlay.on('hide.attach', event => {
             let overlay = event.detail.overlay
-            let anchor  = overlay.anchor
+            let anchor = overlay.anchor
             if (overlay.newValue != null) {
                 if (overlay.newDate) {
                     overlay.newValue = overlay.newDate + ' ' + overlay.newValue
@@ -2705,7 +2715,7 @@ class DateTooltip extends Tooltip {
                 month = 1
                 year++
             }
-            if (month < 1 ) {
+            if (month < 1) {
                 month = 12
                 year--
             }
@@ -2826,7 +2836,7 @@ class DateTooltip extends Tooltip {
             // click on hour
             .on('click.calendar', { delegate: '.w2ui-time.hour' }, event => {
                 let hour = query(event.target).attr('hour')
-                let min  = this.str2min(options.value) % 60
+                let min = this.str2min(options.value) % 60
                 if (overlay.tmp.initValue && !options.value) {
                     min = this.str2min(overlay.tmp.initValue) % 60
                 }
@@ -2867,12 +2877,12 @@ class DateTooltip extends Tooltip {
 
         // normalize date
         if (month == null || year == null) {
-            year  = selected ? selected.getFullYear() : DT.getFullYear()
+            year = selected ? selected.getFullYear() : DT.getFullYear()
             month = selected ? selected.getMonth() + 1 : DT.getMonth() + 1
         }
         if (month > 12) { month -= 12; year++ }
         if (month < 1 || month === 0) { month += 12; year-- }
-        if (year/4 == Math.floor(year/4)) { this.daysCount[1] = 29 } else { this.daysCount[1] = 28 }
+        if (year / 4 == Math.floor(year / 4)) { this.daysCount[1] = 29 } else { this.daysCount[1] = 28 }
         options.current = month + '/' + year
 
         let weekDaysHeaderHTML = ''
@@ -2891,7 +2901,7 @@ class DateTooltip extends Tooltip {
                 <div class="w2ui-cal-next">
                     <div></div>
                 </div>
-                ${w2utils.settings.fullmonths[month-1]}, ${year}
+                ${w2utils.settings.fullmonths[month - 1]}, ${year}
                 <span class="arrow-down"></span>
             </div>
             <div class="w2ui-cal-days">
@@ -2899,7 +2909,7 @@ class DateTooltip extends Tooltip {
         `
 
         // start with the required date
-        DT = new Date(year, month-1, 1)
+        DT = new Date(year, month - 1, 1)
 
         /**
          * Move to noon, instead of midnight. If not, then the date when time saving happens
@@ -2920,32 +2930,32 @@ class DateTooltip extends Tooltip {
         const DaySat = 6, DaySun = 0
         for (let ci = 0; ci < 42; ci++) {
             let className = []
-            let dt = `${DT.getFullYear()}/${DT.getMonth()+1}/${DT.getDate()}`
+            let dt = `${DT.getFullYear()}/${DT.getMonth() + 1}/${DT.getDate()}`
             if (DT.getDay() === DaySat) className.push('w2ui-saturday')
             if (DT.getDay() === DaySun) className.push('w2ui-sunday')
             if (DT.getMonth() + 1 !== month) className.push('outside')
             if (dt == this.today) className.push('w2ui-today')
 
             let dspDay = DT.getDate()
-            let col    = ''
-            let bgcol  = ''
+            let col = ''
+            let bgcol = ''
             let tmp_dt, tmp_dt_fmt
             if (options.type === 'datetime') {
-                tmp_dt     = w2utils.formatDateTime(dt, options.format)
+                tmp_dt = w2utils.formatDateTime(dt, options.format)
                 tmp_dt_fmt = w2utils.formatDate(dt, w2utils.settings.dateFormat)
             } else {
-                tmp_dt     = w2utils.formatDate(dt, options.format)
+                tmp_dt = w2utils.formatDate(dt, options.format)
                 tmp_dt_fmt = tmp_dt
             }
             if (options.colored && options.colored[tmp_dt_fmt] !== undefined) { // if there is predefined colors for dates
                 let tmp = options.colored[tmp_dt_fmt].split('|')
-                bgcol   = 'background-color: ' + tmp[0] + ';'
-                col     = 'color: ' + tmp[1] + ';'
+                bgcol = 'background-color: ' + tmp[0] + ';'
+                col = 'color: ' + tmp[1] + ';'
             }
             html += `<div class="w2ui-day ${this.inRange(tmp_dt, options, true)
-                            ? 'w2ui-date ' + (tmp_dt_fmt == selected_dsp ? 'w2ui-selected' : '')
-                            : 'w2ui-blocked'
-                        } ${className.join(' ')}"
+                ? 'w2ui-date ' + (tmp_dt_fmt == selected_dsp ? 'w2ui-selected' : '')
+                : 'w2ui-blocked'
+                } ${className.join(' ')}"
                        style="${col + bgcol}" date="${tmp_dt_fmt}" data-date="${DT.getTime()}">
                             ${dspDay}
                     </div>`
@@ -2963,7 +2973,7 @@ class DateTooltip extends Tooltip {
         let mhtml = ''
         let yhtml = ''
         for (let m = 0; m < w2utils.settings.fullmonths.length; m++) {
-            mhtml += `<div class="w2ui-jump-month" name="${m+1}">${w2utils.settings.shortmonths[m]}</div>`
+            mhtml += `<div class="w2ui-jump-month" name="${m + 1}">${w2utils.settings.shortmonths[m]}</div>`
         }
         for (let y = w2utils.settings.dateStartYear; y <= w2utils.settings.dateEndYear; y++) {
             yhtml += `<div class="w2ui-jump-year" name="${y}">${y}</div>`
@@ -2984,17 +2994,17 @@ class DateTooltip extends Tooltip {
         for (let a = 0; a < 24; a++) {
             let time = (a >= 12 && !h24 ? a - 12 : a) + ':00' + (!h24 ? (a < 12 ? ' am' : ' pm') : '')
             if (a == 12 && !h24) time = '12:00 pm'
-            if (!tmp[Math.floor(a/8)]) tmp[Math.floor(a/8)] = ''
+            if (!tmp[Math.floor(a / 8)]) tmp[Math.floor(a / 8)] = ''
             let tm1 = this.min2str(this.str2min(time))
             let tm2 = this.min2str(this.str2min(time) + 59)
             if (options.type === 'datetime') {
                 let dt = w2utils.isDateTime(value, options.format, true)
                 let fm = options.format.split('|')[0].trim()
-                tm1    = w2utils.formatDate(dt, fm) + ' ' + tm1
-                tm2    = w2utils.formatDate(dt, fm) + ' ' + tm2
+                tm1 = w2utils.formatDate(dt, fm) + ' ' + tm1
+                tm2 = w2utils.formatDate(dt, fm) + ' ' + tm2
             }
             let valid = this.inRange(tm1, options) || this.inRange(tm2, options)
-            tmp[Math.floor(a/8)] += `<span hour="${a}"
+            tmp[Math.floor(a / 8)] += `<span hour="${a}"
                 class="hour ${valid ? 'w2ui-time ' : 'w2ui-blocked'}">${time}</span>`
         }
         let html = `<div class="w2ui-calendar">
@@ -3004,7 +3014,7 @@ class DateTooltip extends Tooltip {
                 <div class="w2ui-cal-column">${tmp[1]}</div>
                 <div class="w2ui-cal-column">${tmp[2]}</div>
             </div>
-            ${options.btnNow ? `<div class="w2ui-cal-now">${w2utils.lang('Now')}</div>` : '' }
+            ${options.btnNow ? `<div class="w2ui-cal-now">${w2utils.lang('Now')}</div>` : ''}
         </div>`
         return { html }
     }
@@ -3019,8 +3029,8 @@ class DateTooltip extends Tooltip {
         let tmp = []
         for (let a = 0; a < 60; a += 5) {
             let time = (hour > 12 && !h24 ? hour - 12 : hour) + ':' + (a < 10 ? 0 : '') + a + ' ' + (!h24 ? (hour < 12 ? 'am' : 'pm') : '')
-            let tm   = time
-            let ind  = a < 20 ? 0 : (a < 40 ? 1 : 2)
+            let tm = time
+            let ind = a < 20 ? 0 : (a < 40 ? 1 : 2)
             if (!tmp[ind]) tmp[ind] = ''
             if (options.type === 'datetime') {
                 let dt = w2utils.isDateTime(value, options.format, true)
@@ -3036,7 +3046,7 @@ class DateTooltip extends Tooltip {
                 <div class="w2ui-cal-column">${tmp[1]}</div>
                 <div class="w2ui-cal-column">${tmp[2]}</div>
             </div>
-            ${options.btnNow ? `<div class="w2ui-cal-now">${w2utils.lang('Now')}</div>` : '' }
+            ${options.btnNow ? `<div class="w2ui-cal-now">${w2utils.lang('Now')}</div>` : ''}
         </div>`
         return { html }
     }
@@ -3049,10 +3059,10 @@ class DateTooltip extends Tooltip {
             if (dt) {
                 // enable range
                 if (options.start || options.end) {
-                    let st      = (typeof options.start === 'string' ? options.start : query(options.start).val())
-                    let en      = (typeof options.end === 'string' ? options.end : query(options.end).val())
-                    let start   = w2utils.isDate(st, options.format, true)
-                    let end     = w2utils.isDate(en, options.format, true)
+                    let st = (typeof options.start === 'string' ? options.start : query(options.start).val())
+                    let en = (typeof options.end === 'string' ? options.end : query(options.end).val())
+                    let start = w2utils.isDate(st, options.format, true)
+                    let end = w2utils.isDate(en, options.format, true)
                     let current = new Date(dt)
                     if (!start) start = current
                     if (!end) end = current
@@ -3067,7 +3077,7 @@ class DateTooltip extends Tooltip {
             }
         } else if (options.type === 'time') {
             if (options.start || options.end) {
-                let tm  = this.str2min(str)
+                let tm = this.str2min(str)
                 let tm1 = this.str2min(options.start)
                 let tm2 = this.str2min(options.end)
                 if (!tm1) tm1 = tm
@@ -3086,7 +3096,7 @@ class DateTooltip extends Tooltip {
                     if (this.inRange(date, opts)) inRange = true
                 } else {
                     let time = w2utils.formatTime(dt, format[1])
-                    let opts =  { type: 'time', format: format[1], start: options.startTime, end: options.endTime }
+                    let opts = { type: 'time', format: format[1], start: options.startTime, end: options.endTime }
                     if (this.inRange(time, opts)) inRange = true
                 }
             }
@@ -3114,9 +3124,9 @@ class DateTooltip extends Tooltip {
         let ret = ''
         if (time >= 24 * 60) time = time % (24 * 60)
         if (time < 0) time = 24 * 60 + time
-        let hour = Math.floor(time/60)
+        let hour = Math.floor(time / 60)
         let min = ((time % 60) < 10 ? '0' : '') + (time % 60)
-        if (!format) { format = w2utils.settings.timeFormat}
+        if (!format) { format = w2utils.settings.timeFormat }
         if (format.indexOf('h24') !== -1) {
             ret = hour + ':' + min
         } else {
@@ -3127,8 +3137,8 @@ class DateTooltip extends Tooltip {
 }
 
 let w2tooltip = new Tooltip()
-let w2menu    = new MenuTooltip()
-let w2color   = new ColorTooltip()
-let w2date    = new DateTooltip()
+let w2menu = new MenuTooltip()
+let w2color = new ColorTooltip()
+let w2date = new DateTooltip()
 
 export { w2tooltip, w2color, w2menu, w2date, Tooltip }
