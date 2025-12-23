@@ -1397,6 +1397,7 @@ class w2form extends w2base {
     getCssKit(fi, class_) {
         const css = class_ || '';
         const fn = (fi.field || '').replace(/\./g, '-').toLowerCase();
+        if (fn.length == 0) return 'xhide';
         const s = `xk-field xk-name xk-name-${fn} xk-type xk-type-${fi.type} ${css}`;
         return s;
     }
