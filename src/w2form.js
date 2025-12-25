@@ -985,13 +985,16 @@ class w2form extends w2base {
         // show errors
         // show only for visible controls
         errors.forEach(error => {
+
             let opt = w2utils.extend({
                 anchorClass: 'w2ui-error',
                 class: 'w2ui-light',
                 position: 'right|left',
                 hideOn: ['input']
             }, error.options)
+
             if (error.field == null) return
+
             let anchor = error.field.el
             if (error.field.type === 'radio') { // for radio and checkboxes
                 anchor = query(error.field.el).closest('div').get(0)
@@ -1000,12 +1003,12 @@ class w2form extends w2base {
                 // anchor = (error.field.el).data('w2field').helpers.multi
                 // $(fld).addClass('w2ui-error')
             }
-            w2tooltip.show(w2utils.extend({
-                anchor,
-                name: `${this.name}-${error.field.field}-error`,
-                html: error.error
-            }, opt))
+
+            //[?????]
+            //w2tooltip.show(w2utils.extend({ anchor, name: `${this.name}-${error.field.field}-error`, html: error.error }, opt));
+            query(error.field.el).addClass(`w2ui-error`)
         })
+
         // on scroll update errors so they will appear in correct places
         this.last.errorsShown = true
         query(errors[0].field.$el).parents('.w2ui-page')
