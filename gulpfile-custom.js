@@ -14,8 +14,9 @@ const del      = require('del')
 // const { exec } = require('child_process')
 
 //const OUT_DIR = 'dist/'
-const OUT_DIR = resolve(__dirname, '../sc-vuetify/public/static').replace(/\\/g, '/') + '/';
-console.log(OUT_DIR)
+//const OUT_DIR = resolve(__dirname, '../sc-vuetify/public/static').replace(/\\/g, '/') + '/';
+const OUT_DIR = resolve(__dirname, '../xvue/static').replace(/\\/g, '/') + '/';
+console.log(`\n\n[ BUILD = ${OUT_DIR}w2ui.min.js ]\n\n`)
 
 const comments = {
     w2ui : '/* w2ui 2.0.x (nightly) ('+ (new Date()).toLocaleString('en-us') +') (c) http://w2ui.com, vitmalina@gmail.com */\n'
